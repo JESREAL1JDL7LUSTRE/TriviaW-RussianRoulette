@@ -1,0 +1,29 @@
+# Trivia with Russian Roulette (libGDX Game)
+
+## How to Run
+
+1. Clone this repo
+2. Open in VSCode
+3. Run with: `./gradlew desktop:run`
+
+## Requirements
+
+- Java 17 or newer
+
+or 
+
+# Trivia with Russian Roulette (libGDX Game)
+
+## 🔧 How to Run
+
+1. Clone this repo
+2. Run:  
+   On Linux/macOS: `./gradlew desktop:run`  
+   On Windows: `gradlew.bat desktop:run`
+
+> No need to install Gradle or mess with IDEs.
+
+## Requirements
+
+- Java 17+
+- Internet (for first-time Gradle dependencies)
