@@ -1,23 +1,44 @@
-package io.github.Main.JESREAL1JDL7LUSTRE;
+package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.Main;
 
-public class GameScreen extends ScreenAdapter {
-    private final Main game;
-    private Stage stage;
+public class GameScreen extends BaseScreen {
+    private TriviaTopic triviaTopic;
 
-    public GameScreen(Main game) {
-        this.game = game;
+    public GameScreen(Main game, TriviaTopic triviaTopic) {
+        super(game);
+        this.triviaTopic = triviaTopic;
     }
 
     @Override
     public void show() {
-        // Initialize your game world here:
+        super.show();
+
+        // Safety check to avoid null pointer exceptions
+        if (triviaTopic == null) {
+            Gdx.app.error("GameScreen", "TriviaTopic is null!");
+            return;
+        }
+
+        // Log the selected topic to verify it's passed correctly
+        Gdx.app.log("GameScreen", "Selected Topic: " + triviaTopic.getTopic());
+
+        // Check if the topic has questions
+        if (triviaTopic.getQuestions() == null || triviaTopic.getQuestions().size == 0) {
+            Gdx.app.error("GameScreen", "No questions found for this topic!");
+        } else {
+            // Log all questions to verify they're loaded correctly
+            for (Question question : triviaTopic.getQuestions()) {
+                Gdx.app.log("GameScreen", "Question: " + question.getQuestion());
+                Gdx.app.log("GameScreen", "Choices: " + question.getChoices());
+                Gdx.app.log("GameScreen", "Answer: " + question.getAnswer());
+            }
+        }
+
+        // Initialize game world
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
@@ -35,6 +56,7 @@ public class GameScreen extends ScreenAdapter {
 
         // 3) Draw everything
         stage.act(delta);
+        super.render(delta);
         stage.draw();
     }
 

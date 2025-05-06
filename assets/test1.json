@@ -1,0 +1,32 @@
+[
+  {
+    "question": "What is the time complexity of binary search on a sorted array?",
+    "choices": {
+      "a": "O(n)",
+      "b": "O(log n)",
+      "c": "O(n log n)",
+      "d": "O(1)"
+    },
+    "answer": "b"
+  },
+  {
+    "question": "Which of the following is not a programming paradigm?",
+    "choices": {
+      "a": "Object-Oriented",
+      "b": "Functional",
+      "c": "Procedural",
+      "d": "Syntax-Based"
+    },
+    "answer": "d"
+  },
+  {
+    "question": "What does SQL stand for?",
+    "choices": {
+      "a": "Structured Query Language",
+      "b": "Simple Query Language",
+      "c": "Standard Query Language",
+      "d": "System Query Language"
+    },
+    "answer": "a"
+  }
+]
