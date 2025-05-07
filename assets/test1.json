@@ -20,13 +20,33 @@
     "answer": "d"
   },
   {
-    "question": "What does SQL stand for?",
+    "question": "In an undirected graph, which of the following statements is true?",
     "choices": {
-      "a": "Structured Query Language",
-      "b": "Simple Query Language",
-      "c": "Standard Query Language",
-      "d": "System Query Language"
+      "a": "The sum of all vertex degrees is equal to the number of vertices.",
+      "b": "The number of edges is always even.",
+      "c": "The sum of all vertex degrees is twice the number of edges.",
+      "d": "All vertices must have the same degree."
     },
-    "answer": "a"
+    "answer": "c"
+  },
+  {
+    "question": "Which data structure is typically used to implement a priority queue?",
+    "choices": {
+      "a": "Stack",
+      "b": "Queue",
+      "c": "Heap",
+      "d": "Linked List"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "Which sorting algorithm has the best average case time complexity?",
+    "choices": {
+      "a": "Bubble Sort",
+      "b": "Merge Sort",
+      "c": "Selection Sort",
+      "d": "Insertion Sort"
+    },
+    "answer": "b"
   }
 ]

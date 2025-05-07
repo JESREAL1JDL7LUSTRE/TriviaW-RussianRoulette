@@ -39,4 +39,16 @@ public class TriviaTopic {
     public void addQuestion(Question question) {
         questions.add(question);
     }
+
+    public void clearQuestions() {
+        questions.clear();
+    }
+
+    public int getQuestionCount() {
+        return questions.size;
+    }
+
+    public Question getQuestion(int i) {
+        return questions.get(i);
+    }
 }

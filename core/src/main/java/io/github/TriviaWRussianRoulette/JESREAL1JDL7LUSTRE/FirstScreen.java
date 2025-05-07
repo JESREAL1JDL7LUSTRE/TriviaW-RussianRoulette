@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-/** First screen of the application. Displayed after the application is created. */
 public class FirstScreen extends BaseScreen {
 
     public FirstScreen(Main game) {
@@ -34,6 +33,8 @@ public class FirstScreen extends BaseScreen {
         TextButton howToPlayBtn = new TextButton("How To Play", game.uiSkin);
         TextButton aboutBtn = new TextButton("About", game.uiSkin);
         TextButton exitBtn = new TextButton("Exit", game.uiSkin);
+        TextButton addOwnQuestionsBtn = new TextButton("Add Topic/Questions", game.uiSkin);
+        TextButton addEditQuestionsBtn = new TextButton("Add Edit Questions", game.uiSkin);
 
         // 4) Add listeners
         playBtn.addListener(new ChangeListener() {
@@ -67,9 +68,25 @@ public class FirstScreen extends BaseScreen {
                 game.setScreen(new HowToPlay(game));
             }
         });
+        addOwnQuestionsBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new AddOwnQuestions(game));
+            }
+        });
+        addEditQuestionsBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new EditQuestions(game));
+            }
+        });
 
         // 5) Lay out buttons in the table
         table.add(playBtn).width(200).height(50).pad(10);
+        table.row();
+        table.add(addOwnQuestionsBtn).width(200).height(50).pad(10);
+        table.row();
+        table.add(addEditQuestionsBtn).width(200).height(50).pad(10);
         table.row();
         table.add(optionsBtn).width(200).height(50).pad(10);
         table.row();

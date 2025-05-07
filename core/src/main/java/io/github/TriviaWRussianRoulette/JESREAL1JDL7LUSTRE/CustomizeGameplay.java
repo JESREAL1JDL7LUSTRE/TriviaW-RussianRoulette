@@ -16,9 +16,9 @@ public class CustomizeGameplay extends BaseScreen{
 
     private Step currentStep = Step.DIFFICULTY;
 
-    private int selectedDifficulty;
-    private boolean selectedRandomChoices;
-    private boolean selectedOnDeath;
+    private int selectedDifficulty = 1;
+    private boolean selectedRandomChoices = false;
+    private boolean selectedOnDeath = true;
 
     public CustomizeGameplay(Main game) {
         super(game);

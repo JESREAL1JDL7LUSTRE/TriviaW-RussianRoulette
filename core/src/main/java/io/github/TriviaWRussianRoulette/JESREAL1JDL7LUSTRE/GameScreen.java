@@ -129,7 +129,6 @@ public class GameScreen extends BaseScreen {
         }
     }
 
-
     private void nextQuestion() {
         currentQuestionIndex++;
         if (currentQuestionIndex < triviaTopic.getQuestions().size) {
@@ -137,6 +136,7 @@ public class GameScreen extends BaseScreen {
         } else {
             Gdx.app.log("Game", "All questions answered!");
             // TODO: Navigate to results screen or summary
+            game.setScreen(new io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.YouWin(game));
         }
     }
 
