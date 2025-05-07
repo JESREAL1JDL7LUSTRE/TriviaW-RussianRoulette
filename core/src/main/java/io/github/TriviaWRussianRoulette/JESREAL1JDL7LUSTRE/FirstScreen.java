@@ -40,7 +40,7 @@ public class FirstScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 // Switch to the gameplay screen
-                game.setScreen(new io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.TopicChoice(game));
+                game.setScreen(new io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.CustomizeGameplay(game));
             }
         });
         exitBtn.addListener(new ChangeListener() {

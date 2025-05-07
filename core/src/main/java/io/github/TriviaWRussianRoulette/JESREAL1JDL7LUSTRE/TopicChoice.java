@@ -10,11 +10,13 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Array;
 
 public class TopicChoice extends BaseScreen {
+    private final CustomizeGameplay customizeGameplay;
     private static final Json json = new Json();
     private Array<String> topicNames; // Store the topic names (or filenames)
 
-    public TopicChoice(Main game) {
+    public TopicChoice(Main game, CustomizeGameplay customizeGameplay) {
         super(game);
+        this.customizeGameplay = customizeGameplay;
     }
 
     private void loadAllTopics() {
@@ -125,7 +127,7 @@ public class TopicChoice extends BaseScreen {
 
                         if (triviaTopic != null) {
                             Gdx.app.log("Topic Clicked", "Topic selected: " + triviaTopic.getTopic());
-                            game.setScreen(new GameScreen(game, triviaTopic));
+                            game.setScreen(new GameScreen(game, triviaTopic, customizeGameplay));
                         } else {
                             Gdx.app.error("Topic Clicked", "Failed to load topic: " + topicName);
                         }

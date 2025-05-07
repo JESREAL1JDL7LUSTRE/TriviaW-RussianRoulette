@@ -17,6 +17,7 @@ import java.util.*;
 
 
 public class GameScreen extends BaseScreen {
+    private final CustomizeGameplay customizeGameplay;
     private TriviaTopic triviaTopic;
     private Stage stage;
     private Skin skin;
@@ -24,9 +25,10 @@ public class GameScreen extends BaseScreen {
     private Label questionLabel;
     private Table table;
 
-    public GameScreen(Main game, TriviaTopic triviaTopic) {
+    public GameScreen(Main game, TriviaTopic triviaTopic, CustomizeGameplay customizeGameplay) {
         super(game);
         this.triviaTopic = triviaTopic;
+        this.customizeGameplay = customizeGameplay;
     }
     @Override
     public void show() {
@@ -50,7 +52,7 @@ public class GameScreen extends BaseScreen {
 
     private void showQuestion() {
         table.clear();
-        boolean shuffleChoices = false;
+        boolean shuffleChoices = customizeGameplay.randomChoices();
 
         Question question = triviaTopic.getQuestions().get(currentQuestionIndex);
 
@@ -90,7 +92,7 @@ public class GameScreen extends BaseScreen {
                     } else {
                         Gdx.app.log("Answer", "Wrong!");
                         if (roulette()) {
-                            Gdx.app.exit();
+                            uponDeath();
                         }
                     }
                     nextQuestion();
@@ -100,7 +102,7 @@ public class GameScreen extends BaseScreen {
     }
 
     private boolean roulette() {
-        int bullets = 1;
+        int bullets = customizeGameplay.difficulty();
         int shells = 6;
 
         List<String> values = new ArrayList<>();
@@ -136,6 +138,16 @@ public class GameScreen extends BaseScreen {
             Gdx.app.log("Game", "All questions answered!");
             // TODO: Navigate to results screen or summary
         }
+    }
+
+    private void uponDeath() {
+        boolean whatHappen = customizeGameplay.onDeath();
+        if (whatHappen){
+            game.setScreen(new io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.FirstScreen(game));
+        } else {
+            Gdx.app.exit();
+        }
+
     }
 
     @Override
