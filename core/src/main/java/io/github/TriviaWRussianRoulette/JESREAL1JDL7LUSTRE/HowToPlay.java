@@ -163,39 +163,17 @@ public class HowToPlay extends BaseScreen {
     }
 
     private void goToNextStep() {
-        switch (currentStep) {
-            case STEP1:
-                currentStep = Step.STEP2;
-                break;
-            case STEP2:
-                currentStep = Step.STEP3;
-                break;
-            case STEP3:
-                currentStep = Step.DONE;
-                break;
-            case DONE:
-                // If done, go back to main menu or start the game
-                game.setScreen(new FirstScreen(game));
-                return;
-        }
+        int nextOrdinal = (currentStep.ordinal() + 1) % Step.values().length;
+        currentStep = Step.values()[nextOrdinal];
         renderCurrentStep();
     }
 
     private void goToPreviousStep() {
-        switch (currentStep) {
-            case STEP1:
-                game.setScreen(new FirstScreen(game));
-                return;
-            case STEP2:
-                currentStep = Step.STEP1;
-                break;
-            case STEP3:
-                currentStep = Step.STEP2;
-                break;
-            case DONE:
-                currentStep = Step.STEP3;
-                break;
+        int prevOrdinal = currentStep.ordinal() - 1;
+        if (prevOrdinal < 0) {
+            prevOrdinal = Step.values().length - 1;
         }
+        currentStep = Step.values()[prevOrdinal];
         renderCurrentStep();
     }
 
