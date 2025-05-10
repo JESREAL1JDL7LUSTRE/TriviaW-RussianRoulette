@@ -3,15 +3,12 @@ package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class HowToPlay extends BaseScreen {
 
@@ -54,7 +51,10 @@ public class HowToPlay extends BaseScreen {
 
     @Override
     public void show() {
-        super.show();
+        stage = new Stage(new ScreenViewport());
+        skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
+
+        Gdx.input.setInputProcessor(stage);
 
         // Main container
         Table mainTable = new Table();
