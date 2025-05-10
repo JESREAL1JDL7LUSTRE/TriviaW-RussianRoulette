@@ -81,6 +81,7 @@ public class FirstScreen extends BaseScreen {
             }
         });
 
+        // 5) Lay out buttons in the table
         table.add(playBtn).width(200).height(50).pad(10);
         table.row();
         table.add(addOwnQuestionsBtn).width(200).height(50).pad(10);
