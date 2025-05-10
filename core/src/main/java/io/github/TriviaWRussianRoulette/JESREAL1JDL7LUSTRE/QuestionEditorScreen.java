@@ -317,6 +317,15 @@ public class QuestionEditorScreen extends BaseScreen {
         }
     }
 
+    private void clearFields() {
+        questionField.setText("");
+        optionAField.setText("");
+        optionBField.setText("");
+        optionCField.setText("");
+        optionDField.setText("");
+        correctAnswerSelect.setSelected("a");
+    }
+
     private void addNewQuestion() {
         // Create a new empty question
         Question newQuestion = new Question();
@@ -336,11 +345,11 @@ public class QuestionEditorScreen extends BaseScreen {
 
         // Select the new question for editing
         currentQuestionIndex = questions.size - 1;
-
+        clearFields();
         // Update the UI
         populateQuestionsList();
         selectQuestion(currentQuestionIndex);
-
+        setEditorEnabled(true);
         // Scroll to the bottom to show the new question
         scrollPane.setScrollY(questionsTable.getHeight());
     }

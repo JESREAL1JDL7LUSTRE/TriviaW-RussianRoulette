@@ -30,6 +30,9 @@ public class Main extends Game {
         // Initialize the screen history stack
         screenHistory = new Stack<>();
 
+        //bgMusic
+        BgMusic.playBackgroundMusic();
+
         // Set the very first screen (no history at this point)
         setScreen(new FirstScreen(this));
     }

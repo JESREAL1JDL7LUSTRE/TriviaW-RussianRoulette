@@ -1,15 +1,14 @@
 package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -19,13 +18,15 @@ import java.util.List;
 public class AddOwnQuestions extends BaseScreen{
     private Stage stage;
     private Skin skin;
-    public Table table;
+    private Table mainTable;
+    private Table questionsTable;
+    private ScrollPane scrollPane;
     private TextField questionField;
     private TextField choiceAField, choiceBField, choiceCField, choiceDField;
     private SelectBox<String> answerSelect;
-    private TextButton nextButton, doneButton, exitButton;
+    private TextButton nextButton, doneButton, exitButton, deleteButton;
     private final List<Question> questions = new ArrayList<>();
-
+    private int currentQuestionIndex = -1; // -1 means no question is selected
 
     public AddOwnQuestions(Main game) {
         super(game);
@@ -37,36 +38,18 @@ public class AddOwnQuestions extends BaseScreen{
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        // UI Elements
-        questionField = new TextField("", skin);
-        choiceAField = new TextField("", skin);
-        choiceBField = new TextField("", skin);
-        choiceCField = new TextField("", skin);
-        choiceDField = new TextField("", skin);
+        setupUI();
+    }
 
-        answerSelect = new SelectBox<>(skin);
-        answerSelect.setItems("a", "b", "c", "d");
+    private void setupUI() {
+        mainTable = new Table();
+        mainTable.setFillParent(true);
 
-        nextButton = new TextButton("Next", skin);
-        doneButton = new TextButton("Done", skin);
-        exitButton = new TextButton("Exit", skin);
+        // Create title and controls
+        Label titleLabel = new Label("Add Your Own Questions", skin);
+        titleLabel.setFontScale(1.5f);
 
-        nextButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                addCurrentQuestion();
-                clearFields();
-            }
-        });
-
-        doneButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                addCurrentQuestion();  // Save final question
-                promptForFilenameAndSave();
-            }
-        });
-
+        exitButton = new TextButton("Back", skin);
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -74,55 +57,305 @@ public class AddOwnQuestions extends BaseScreen{
             }
         });
 
+        doneButton = new TextButton("Save All Questions", skin);
+        doneButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                saveCurrentQuestion();  // Save final question
+                if (questions.size() > 0) {
+                    promptForFilenameAndSave();
+                } else {
+                    Dialog errorDialog = new Dialog("Error", skin);
+                    errorDialog.text("Please add at least one question before saving.");
+                    errorDialog.button("OK");
+                    errorDialog.show(stage);
+                }
+            }
+        });
 
+        // Add top controls
+        Table topControls = new Table();
+        topControls.add(exitButton).left().padRight(20);
+        topControls.add(titleLabel).expandX();
+        topControls.add(doneButton).right().padLeft(20);
 
-        // Layout
-        Table table = new Table();
-        table.setFillParent(true);
-        table.pad(20);
-        table.add(new Label("Question:", skin)).left().row();
-        table.add(questionField).width(600).row();
+        mainTable.add(topControls).fillX().pad(60);
+        mainTable.row();
 
-        table.add(new Label("Choice A:", skin)).left().row();
-        table.add(choiceAField).width(600).row();
-        table.add(new Label("Choice B:", skin)).left().row();
-        table.add(choiceBField).width(600).row();
-        table.add(new Label("Choice C:", skin)).left().row();
-        table.add(choiceCField).width(600).row();
-        table.add(new Label("Choice D:", skin)).left().row();
-        table.add(choiceDField).width(600).row();
+        // Create split layout - with questions list on left
+        Table splitLayout = new Table();
 
-        table.add(new Label("Correct Answer:", skin)).left().row();
-        table.add(answerSelect).width(100).row();
+        // Questions list on the left
+        questionsTable = new Table();
+        questionsTable.top().left();
+        scrollPane = new ScrollPane(questionsTable, skin);
+        scrollPane.setFadeScrollBars(false);
 
-// Create a table specifically for the buttons
-        Table buttonTable = new Table();
-        buttonTable.padTop(20);
+        // Add new question button at the top of the left panel
+        TextButton addNewButton = new TextButton("+ Add New Question", skin);
+        addNewButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Save the current question if there is one
+                saveCurrentQuestion();
+                addNewQuestion();
+            }
+        });
 
-// Add buttons with equal spacing
-        buttonTable.add(nextButton).padRight(30);
-        buttonTable.add(doneButton);
-        buttonTable.add(exitButton).padLeft(30);
+        Table leftPanel = new Table();
+        leftPanel.top();
+        leftPanel.add(addNewButton).fillX().pad(5);
+        leftPanel.row();
+        leftPanel.add(scrollPane).expand().fill();
 
-// Add the button table to the main table
-        table.add(buttonTable).colspan(2).center().row();
+        // Question editor on the right
+        Table editorPanel = createEditorPanel();
 
-        stage.addActor(table);
+        // Add both panels to the split layout
+        splitLayout.add(leftPanel).width(300).expand().fill().pad(5);
+        splitLayout.add(editorPanel).expand().fill().pad(5);
+
+        mainTable.add(splitLayout).expand().fill();
+
+        // Initialize the UI with a blank question
+        addNewQuestion();
+
+        stage.addActor(mainTable);
     }
 
-    private void addCurrentQuestion() {
-        ObjectMap<String, String> choicesMap = new ObjectMap<>();
-        choicesMap.put("a", choiceAField.getText());
-        choicesMap.put("b", choiceBField.getText());
-        choicesMap.put("c", choiceCField.getText());
-        choicesMap.put("d", choiceDField.getText());
+    private Table createEditorPanel() {
+        Table editorPanel = new Table();
+        editorPanel.top();
 
-        Question question = new Question(
-            questionField.getText(),
-            choicesMap,
-            answerSelect.getSelected()
-        );
-        questions.add(question);
+        // Create question editing fields
+        Label questionLabel = new Label("Question:", skin);
+        questionField = new TextField("", skin);
+        questionField.setMessageText("Enter question text here");
+
+        Label optionsLabel = new Label("Options:", skin);
+
+        Label optionALabel = new Label("A:", skin);
+        choiceAField = new TextField("", skin);
+
+        Label optionBLabel = new Label("B:", skin);
+        choiceBField = new TextField("", skin);
+
+        Label optionCLabel = new Label("C:", skin);
+        choiceCField = new TextField("", skin);
+
+        Label optionDLabel = new Label("D:", skin);
+        choiceDField = new TextField("", skin);
+
+        Label correctAnswerLabel = new Label("Correct Answer:", skin);
+        answerSelect = new SelectBox<>(skin);
+        answerSelect.setItems("a", "b", "c", "d");
+
+        // Action buttons
+        nextButton = new TextButton("Save & Add New", skin);
+        nextButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                saveCurrentQuestion();
+                addNewQuestion();
+            }
+        });
+
+        deleteButton = new TextButton("Delete Question", skin);
+        deleteButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                deleteCurrentQuestion();
+            }
+        });
+
+        // Add components to the editor panel
+        editorPanel.add(questionLabel).left().padTop(10);
+        editorPanel.row();
+        editorPanel.add(questionField).fillX().height(100).pad(5);
+        editorPanel.row();
+
+        editorPanel.add(optionsLabel).left().padTop(10);
+        editorPanel.row();
+
+        Table optionsTable = new Table();
+        optionsTable.add(optionALabel).width(30);
+        optionsTable.add(choiceAField).expandX().fillX().pad(5);
+        optionsTable.row();
+        optionsTable.add(optionBLabel).width(30);
+        optionsTable.add(choiceBField).expandX().fillX().pad(5);
+        optionsTable.row();
+        optionsTable.add(optionCLabel).width(30);
+        optionsTable.add(choiceCField).expandX().fillX().pad(5);
+        optionsTable.row();
+        optionsTable.add(optionDLabel).width(30);
+        optionsTable.add(choiceDField).expandX().fillX().pad(5);
+
+        editorPanel.add(optionsTable).fillX();
+        editorPanel.row();
+
+        Table answerTable = new Table();
+        answerTable.add(correctAnswerLabel).left().padRight(10);
+        answerTable.add(answerSelect).width(100);
+
+        editorPanel.add(answerTable).left().padTop(10);
+        editorPanel.row();
+
+        // Add action buttons
+        Table actionButtons = new Table();
+        actionButtons.add(deleteButton).padRight(10);
+        actionButtons.add(nextButton);
+
+        editorPanel.add(actionButtons).right().padTop(20);
+
+        // Initially disable the editor until a question is selected
+        setEditorEnabled(false);
+
+        return editorPanel;
+    }
+
+    private void populateQuestionsList() {
+        questionsTable.clear();
+
+        for (int i = 0; i < questions.size(); i++) {
+            final int questionIndex = i;
+            Question question = questions.get(i);
+
+            // Create a button with the question text (truncated if needed)
+            String displayText = question.getQuestion();
+            if (displayText == null || displayText.isEmpty()) {
+                displayText = "New Question";
+            } else if (displayText.length() > 30) {
+                displayText = displayText.substring(0, 27) + "...";
+            }
+
+            TextButton questionButton = new TextButton((i + 1) + ". " + displayText, skin);
+
+            // Highlight the currently selected question
+            if (questionIndex == currentQuestionIndex) {
+                questionButton.setColor(Color.CYAN);
+            }
+
+            questionButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    selectQuestion(questionIndex);
+                }
+            });
+
+            questionsTable.add(questionButton).fillX().pad(3);
+            questionsTable.row();
+        }
+    }
+
+    private void selectQuestion(int index) {
+        if (index >= 0 && index < questions.size()) {
+            // Save the current question if one was being edited
+            if (currentQuestionIndex != -1) {
+                saveCurrentQuestion();
+            }
+
+            currentQuestionIndex = index;
+            Question question = questions.get(index);
+
+            // Fill the editor fields with the question data
+            questionField.setText(question.getQuestion());
+
+            ObjectMap<String, String> choices = question.getChoices();
+            choiceAField.setText(choices.get("a", ""));
+            choiceBField.setText(choices.get("b", ""));
+            choiceCField.setText(choices.get("c", ""));
+            choiceDField.setText(choices.get("d", ""));
+
+            answerSelect.setSelected(question.getAnswer());
+
+            // Enable the editor
+            setEditorEnabled(true);
+
+            // Update the questions list to highlight the selected question
+            populateQuestionsList();
+        }
+    }
+
+    private void setEditorEnabled(boolean enabled) {
+        questionField.setDisabled(!enabled);
+        choiceAField.setDisabled(!enabled);
+        choiceBField.setDisabled(!enabled);
+        choiceCField.setDisabled(!enabled);
+        choiceDField.setDisabled(!enabled);
+        answerSelect.setDisabled(!enabled);
+        deleteButton.setDisabled(!enabled);
+    }
+
+    private void saveCurrentQuestion() {
+        if (currentQuestionIndex != -1 && currentQuestionIndex < questions.size()) {
+            Question question = questions.get(currentQuestionIndex);
+
+            // Update the question with the editor values
+            question.setQuestion(questionField.getText());
+
+            ObjectMap<String, String> choices = new ObjectMap<>();
+            choices.put("a", choiceAField.getText());
+            choices.put("b", choiceBField.getText());
+            choices.put("c", choiceCField.getText());
+            choices.put("d", choiceDField.getText());
+
+            question.setChoices(choices);
+            question.setAnswer(answerSelect.getSelected());
+
+            // Update the questions list to show any changes
+            populateQuestionsList();
+        }
+    }
+
+    private void addNewQuestion() {
+        // Create a new empty question
+        Question newQuestion = new Question();
+        newQuestion.setQuestion("New Question");
+
+        ObjectMap<String, String> choices = new ObjectMap<>();
+        choices.put("a", "Option A");
+        choices.put("b", "Option B");
+        choices.put("c", "Option C");
+        choices.put("d", "Option D");
+        newQuestion.setChoices(choices);
+
+        newQuestion.setAnswer("a");
+
+        // Add it to the questions array
+        questions.add(newQuestion);
+
+        // Select the new question for editing
+        currentQuestionIndex = questions.size() - 1;
+        clearFields();
+        // Update the UI
+        populateQuestionsList();
+        selectQuestion(currentQuestionIndex);
+        setEditorEnabled(true);
+
+        // Scroll to the bottom to show the new question
+        scrollPane.setScrollY(questionsTable.getHeight());
+    }
+
+    private void deleteCurrentQuestion() {
+        if (currentQuestionIndex != -1 && !questions.isEmpty()) {
+            questions.remove(currentQuestionIndex);
+
+            // Reset selection if we deleted the last question
+            if (questions.isEmpty()) {
+                currentQuestionIndex = -1;
+                setEditorEnabled(false);
+                clearFields();
+                addNewQuestion(); // Always have at least one question
+            } else if (currentQuestionIndex >= questions.size()) {
+                currentQuestionIndex = questions.size() - 1;
+                selectQuestion(currentQuestionIndex);
+            } else {
+                selectQuestion(currentQuestionIndex);
+            }
+
+            // Update the questions list
+            populateQuestionsList();
+        }
     }
 
     private void clearFields() {
@@ -142,8 +375,11 @@ public class AddOwnQuestions extends BaseScreen{
 
         dialog.add(new Label("Enter filename:", skin)).pad(10).row();
         dialog.add(filenameField).width(300).padBottom(10).row();
-        dialog.add(saveButton).padRight(10);
-        dialog.add(cancelButton).row();
+
+        Table dialogButtons = new Table();
+        dialogButtons.add(saveButton).padRight(10);
+        dialogButtons.add(cancelButton);
+        dialog.add(dialogButtons).padTop(10);
 
         dialog.pack();
         dialog.setModal(true);
@@ -158,6 +394,12 @@ public class AddOwnQuestions extends BaseScreen{
                 if (!filename.isEmpty()) {
                     saveQuestionsToFile(filename);
                     dialog.remove();
+
+                    // Show success dialog
+                    Dialog successDialog = new Dialog("Success", skin);
+                    successDialog.text("Questions saved successfully!");
+                    successDialog.button("OK");
+                    successDialog.show(stage);
                 }
             }
         });
@@ -288,5 +530,4 @@ public class AddOwnQuestions extends BaseScreen{
 
     @Override public void resize(int width, int height) { stage.getViewport().update(width, height, true); }
     @Override public void dispose() { stage.dispose(); }
-
 }

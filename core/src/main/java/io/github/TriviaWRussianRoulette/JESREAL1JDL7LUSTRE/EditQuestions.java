@@ -148,30 +148,4 @@ public class EditQuestions extends BaseScreen {
         }
     }
 
-    private void createNewTopic() {
-        // Logic to create a new topic would go here
-        // For now, we'll create an empty topic with a default name
-        String newTopicName = "NewTopic_" + System.currentTimeMillis() + ".json";
-        TriviaTopic newTopic = new TriviaTopic(newTopicName.replace(".json", ""));
-
-        // Add it to topicNames for the next time this screen is shown
-        topicNames.add(newTopicName);
-
-        // Update the master file
-        updateMasterTopicList();
-
-        // Go to the editor for this new topic
-        game.setScreen(new QuestionEditorScreen(game, newTopic, newTopicName));
-    }
-
-    private void updateMasterTopicList() {
-        FileHandle masterFile = Gdx.files.local("assets/allTopics.json");
-        String[] topicArray = new String[topicNames.size];
-        for (int i = 0; i < topicNames.size; i++) {
-            topicArray[i] = topicNames.get(i);
-        }
-
-        String jsonString = json.toJson(topicArray);
-        masterFile.writeString(jsonString, false);
-    }
 }

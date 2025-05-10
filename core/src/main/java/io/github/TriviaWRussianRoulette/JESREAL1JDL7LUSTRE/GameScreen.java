@@ -80,7 +80,7 @@ public class GameScreen extends BaseScreen {
             final String key = entry.key;
             final String value = entry.value;
 
-            TextButton choiceButton = new TextButton(key + ") " + value, skin);
+            TextButton choiceButton = new TextButton(value, skin);
             table.add(choiceButton).pad(10).row();
 
             choiceButton.addListener(new ChangeListener() {
