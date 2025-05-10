@@ -26,7 +26,7 @@ public class FirstScreen extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
 
         // 2) Add background
-        bgTexture = new Texture(Gdx.files.internal("Home.png"));
+        bgTexture = new Texture(Gdx.files.internal("FirstScreen.png"));
         Image background = new Image(bgTexture);
         background.setFillParent(true);
         stage.addActor(background);

@@ -2,6 +2,8 @@ package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -9,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -24,6 +27,8 @@ public class GameScreen extends BaseScreen {
     private int currentQuestionIndex = 0;
     private Label questionLabel;
     private Table table;
+    private Texture backgroundTexture;
+    private Image backgroundImage;
 
     public GameScreen(Main game, TriviaTopic triviaTopic, CustomizeGameplay customizeGameplay) {
         super(game);
@@ -32,32 +37,34 @@ public class GameScreen extends BaseScreen {
     }
     @Override
     public void show() {
-
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        skin = new Skin(Gdx.files.internal("uiskin.json")); // Make sure this exists
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+        // Background setup
+        backgroundTexture = new Texture(Gdx.files.internal("GameScreen.png"));
+        backgroundImage = new Image(backgroundTexture);
+        backgroundImage.setFillParent(true);
+        stage.addActor(backgroundImage); // add background first
 
         table = new Table();
         table.setFillParent(true);
-        stage.addActor(table);
+        stage.addActor(table); // then UI elements on top
 
         if (triviaTopic.getQuestions() == null || triviaTopic.getQuestions().size == 0) {
             Gdx.app.error("GameScreen", "No questions found for this topic!");
         } else {
-            showQuestion(); // Display the first question
+            showQuestion();
         }
     }
 
     private void showQuestion() {
         table.clear();
         boolean shuffleChoices = customizeGameplay.randomChoices();
-
         Question question = triviaTopic.getQuestions().get(currentQuestionIndex);
 
-        questionLabel = new Label(question.getQuestion(), skin);
-        questionLabel.setFontScale(1.5f);
-        table.add(questionLabel).padBottom(30).row();
+        Table leftCol = new Table();
 
         ObjectMap<String, String> choices = question.getChoices();
         Array<ObjectMap.Entry<String, String>> entries = new Array<>();
@@ -80,7 +87,7 @@ public class GameScreen extends BaseScreen {
             final String value = entry.value;
 
             TextButton choiceButton = new TextButton(value, skin);
-            table.add(choiceButton).pad(10).row();
+            leftCol.add(choiceButton).center().pad(15).width(500).height(90).row();
 
             choiceButton.addListener(new ChangeListener() {
                 @Override
@@ -98,7 +105,34 @@ public class GameScreen extends BaseScreen {
                 }
             });
         }
+
+        // Create question box
+        Table questionBox = new Table(skin);
+        questionBox.setBackground("textfield");
+        questionLabel = new Label(question.getQuestion(), skin);
+        questionLabel.setFontScale(1.2f);
+        questionLabel.setWrap(true);
+        questionLabel.setAlignment(Align.left);
+        questionBox.add(questionLabel).expandX().fillX().pad(20);
+
+        // Build layout
+        table.bottom().padBottom(10); // Align top
+        table.add(leftCol).bottom().left().padLeft(100).padRight(30).padBottom(10); // Raise choices up
+        table.row();
+
+        // Add question box at bottom, centered, with margin on both sides
+        table.add(questionBox)
+            .expandX()
+            .fillX()
+            .padLeft(100)
+            .padRight(100)
+            .padTop(40)
+            .padBottom(30)
+            .height(180)
+            .center();
     }
+
+
 
     private boolean roulette() {
         int bullets = customizeGameplay.difficulty();
@@ -173,6 +207,7 @@ public class GameScreen extends BaseScreen {
     @Override
     public void dispose() {
         stage.dispose();
+        if (backgroundTexture != null) backgroundTexture.dispose();
         // Dispose any game-specific textures or sounds here
     }
 }

@@ -1,16 +1,15 @@
 package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class CustomizeGameplay extends BaseScreen{
+public class CustomizeGameplay extends BaseScreen {
     private enum Step {
         DIFFICULTY,
         RANDOM_CHOICES,
@@ -23,6 +22,7 @@ public class CustomizeGameplay extends BaseScreen{
     private int selectedDifficulty = 1;
     private boolean selectedRandomChoices = false;
     private boolean selectedOnDeath = true;
+    private Texture bgTexture;
 
     public CustomizeGameplay(Main game) {
         super(game);
@@ -32,18 +32,23 @@ public class CustomizeGameplay extends BaseScreen{
     public void show() {
         stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
-
         renderStepUI();
     }
 
     private void renderStepUI() {
-        stage.clear(); // Clear previous UI
+        stage.clear();
         super.show();
-        Table table = new Table();
-        table.setFillParent(true); // Make the table take up the whole screen
-        table.center();            // Center everything by default
 
-        stage.addActor(table);     // Add the table to the stage
+        bgTexture = new Texture(Gdx.files.internal("Gameplay.png"));
+        Image background = new Image(bgTexture);
+        background.setFillParent(true);
+        stage.addActor(background);
+
+        Table table = new Table();
+        table.setFillParent(true);
+        table.center();
+        table.defaults().padBottom(30).size(200, 50);
+        stage.addActor(table);
 
         switch (currentStep) {
             case DIFFICULTY:
@@ -61,11 +66,24 @@ public class CustomizeGameplay extends BaseScreen{
         }
     }
 
+    private Label createStyledLabel(String text) {
+        Label label = new Label(text, skin);
+        label.setFontScale(3f);
+        label.setAlignment(Align.center);
+        return label;
+    }
+
+    private TextButton createStyledButton(String text) {
+        TextButton button = new TextButton(text, skin);
+        button.getLabel().setFontScale(1f);
+        return button;
+    }
+
     private void showDifficultyStep(Table table) {
-        Label label = new Label("Select Difficulty:", skin);
-        TextButton easy = new TextButton("Easy", skin);
-        TextButton medium = new TextButton("Medium", skin);
-        TextButton hard = new TextButton("Hard", skin);
+        Label label = createStyledLabel("Select Difficulty:");
+        TextButton easy = createStyledButton("Easy");
+        TextButton medium = createStyledButton("Medium");
+        TextButton hard = createStyledButton("Hard");
 
         easy.addListener(new ClickListener() {
             @Override
@@ -94,17 +112,16 @@ public class CustomizeGameplay extends BaseScreen{
             }
         });
 
-        // Add them to the table in vertical order
-        table.add(label).padBottom(20).row();
-        table.add(easy).padBottom(10).row();
-        table.add(medium).padBottom(10).row();
+        table.add(label).padBottom(50).row();
+        table.add(easy).row();
+        table.add(medium).row();
         table.add(hard).row();
     }
 
     private void showRandomChoicesStep(Table table) {
-        Label label = new Label("Enable random choices?", skin);
-        TextButton yes = new TextButton("Yes", skin);
-        TextButton no = new TextButton("No", skin);
+        Label label = createStyledLabel("Enable random choices?");
+        TextButton yes = createStyledButton("Yes");
+        TextButton no = createStyledButton("No");
 
         yes.addListener(new ClickListener() {
             @Override
@@ -124,16 +141,17 @@ public class CustomizeGameplay extends BaseScreen{
             }
         });
 
-        table.add(label).padBottom(20).row();
-        table.add(yes).padBottom(10).row();
-        table.add(no).padBottom(10).row();
+        table.add(label).padBottom(50).row();
+        table.add(yes).row();
+        table.add(no).row();
     }
-    private void showOnDeathStep(Table table) {
-        Label label = new Label("What happen upon Death", skin);
-        TextButton yes = new TextButton("reincarnate", skin);
-        TextButton no = new TextButton("Die in peace", skin);
 
-        yes.addListener(new ClickListener() {
+    private void showOnDeathStep(Table table) {
+        Label label = createStyledLabel("What happens upon Death?");
+        TextButton reincarnate = createStyledButton("Reincarnate");
+        TextButton die = createStyledButton("Die in Peace");
+
+        reincarnate.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 selectedOnDeath = true;
@@ -142,7 +160,7 @@ public class CustomizeGameplay extends BaseScreen{
             }
         });
 
-        no.addListener(new ClickListener() {
+        die.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 selectedOnDeath = false;
@@ -151,12 +169,12 @@ public class CustomizeGameplay extends BaseScreen{
             }
         });
 
-        table.add(label).padBottom(20).row();
-        table.add(yes).padBottom(10).row();
-        table.add(no).padBottom(10).row();
+        table.add(label).padBottom(50).row();
+        table.add(reincarnate).row();
+        table.add(die).row();
     }
+
     private void goToNextScreen() {
-        // You can pass 'this' as CustomizeGameplay into the next screen
         game.setScreen(new TopicChoice(game, this));
     }
 
@@ -172,4 +190,9 @@ public class CustomizeGameplay extends BaseScreen{
         return selectedOnDeath;
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+        if (bgTexture != null) bgTexture.dispose();
+    }
 }
