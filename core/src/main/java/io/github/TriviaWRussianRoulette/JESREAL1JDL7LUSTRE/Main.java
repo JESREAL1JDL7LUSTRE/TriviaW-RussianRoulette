@@ -31,6 +31,8 @@ public class Main extends Game {
         screenHistory = new Stack<>();
 
         //bgMusic
+        // Start playing background music automatically when menu opens
+        BgMusic.initMusicOptions();
         BgMusic.playBackgroundMusic();
 
         // Set the very first screen (no history at this point)
