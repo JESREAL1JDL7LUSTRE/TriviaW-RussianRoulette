@@ -140,7 +140,7 @@ public class TopicChoice extends BaseScreen {
 
             table.add(topicLabel).width(300).height(50);
 
-            if ((i + 1) % 3 == 0) {
+            if ((i + 1) % 6 == 0) {
                 table.row(); // Move to the next row in the table
             }
         }

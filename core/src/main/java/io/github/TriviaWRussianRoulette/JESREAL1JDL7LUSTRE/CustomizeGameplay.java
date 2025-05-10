@@ -1,10 +1,14 @@
 package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class CustomizeGameplay extends BaseScreen{
     private enum Step {
@@ -26,13 +30,15 @@ public class CustomizeGameplay extends BaseScreen{
 
     @Override
     public void show() {
-        super.show();
+        stage = new Stage(new ScreenViewport());
+        skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
+
         renderStepUI();
     }
 
     private void renderStepUI() {
         stage.clear(); // Clear previous UI
-
+        super.show();
         Table table = new Table();
         table.setFillParent(true); // Make the table take up the whole screen
         table.center();            // Center everything by default

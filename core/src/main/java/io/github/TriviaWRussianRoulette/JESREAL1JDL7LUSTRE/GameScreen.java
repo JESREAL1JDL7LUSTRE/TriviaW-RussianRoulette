@@ -32,7 +32,6 @@ public class GameScreen extends BaseScreen {
     }
     @Override
     public void show() {
-        super.show();
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -158,7 +157,6 @@ public class GameScreen extends BaseScreen {
 
         // 3) Draw everything
         stage.act(delta);
-        super.render(delta);
         stage.draw();
     }
 

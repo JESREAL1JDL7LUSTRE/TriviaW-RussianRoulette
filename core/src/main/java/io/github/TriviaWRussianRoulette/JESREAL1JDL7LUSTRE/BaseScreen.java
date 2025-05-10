@@ -19,7 +19,7 @@ public abstract class BaseScreen extends ScreenAdapter {
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
 
         burger = new Burger(skin, game);
         stage.addActor(burger);

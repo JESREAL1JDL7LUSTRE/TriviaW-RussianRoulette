@@ -3,13 +3,12 @@ package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class EditQuestions extends BaseScreen {
 
@@ -23,7 +22,9 @@ public class EditQuestions extends BaseScreen {
 
     @Override
     public void show() {
-        super.show();
+        stage = new Stage(new ScreenViewport());
+        skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
+
         mainTable = new Table();
         mainTable.setFillParent(true);
 
@@ -41,7 +42,7 @@ public class EditQuestions extends BaseScreen {
         });
 
         // Add components to main table
-        mainTable.add(titleLabel).colspan(3).pad(50);
+        mainTable.add(titleLabel).colspan(6).pad(50);
         mainTable.row();
 
         // Load and display topics
@@ -90,7 +91,7 @@ public class EditQuestions extends BaseScreen {
 
             topicsTable.add(topicButton).width(300).height(50);
 
-            if ((i + 1) % 3 == 0) {
+            if ((i + 1) % 6 == 0) {
                 topicsTable.row();
             }
         }
@@ -105,13 +106,13 @@ public class EditQuestions extends BaseScreen {
         });
 
         // Add an extra row if needed
-        if (topicNames.size % 3 != 0) {
+        if (topicNames.size % 6 != 0) {
             topicsTable.row();
         }
 
-        topicsTable.add(newTopicButton).width(300).height(50).colspan(3).pad(20);
+        topicsTable.add(newTopicButton).width(300).height(50).colspan(6).pad(20);
 
-        mainTable.add(scrollPane).expand().fill().colspan(3);
+        mainTable.add(scrollPane).expand().fill().colspan(6);
     }
 
     private void loadQuestionsForEditing(String topicName) {
