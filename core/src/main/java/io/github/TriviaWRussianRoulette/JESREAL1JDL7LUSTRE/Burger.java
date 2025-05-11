@@ -14,10 +14,10 @@ public class Burger extends Table {
         this.setFillParent(true);
         this.top().padTop(10).padLeft(10).padRight(10); // Optional padding
 
-        Label title = new Label("Trivia Game", skin);
+        Label title = new Label(" ", skin);
         title.setFontScale(1.5f);
         // Load icon texture (you can share this texture app-wide if needed)
-        this.burgerTexture = new Texture(Gdx.files.internal("burger.png"));
+        this.burgerTexture = new Texture(Gdx.files.internal("img.png"));
         System.out.println(Gdx.files.internal("burger.png").exists());
 
 

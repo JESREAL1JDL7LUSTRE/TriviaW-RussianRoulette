@@ -53,7 +53,7 @@ public class AddOwnQuestions extends BaseScreen{
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new FirstScreen(game));
+                game.goBack();
             }
         });
 
