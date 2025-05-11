@@ -3,6 +3,7 @@ package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -82,11 +84,27 @@ public class GameScreen extends BaseScreen {
             entries.sort((a, b) -> a.key.compareTo(b.key));
         }
 
+        // Create styles using PNGs from buttons/ folder
+        TextButton.TextButtonStyle[] buttonStyles = new TextButton.TextButtonStyle[4];
+
+        for (int i = 0; i < 4; i++) {
+            TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+            Texture buttonTexture = new Texture(Gdx.files.internal("buttons/button" + (i + 1) + ".png"));
+            style.up = new Image(buttonTexture).getDrawable();
+            style.font = new BitmapFont(); // Replace with your own font if needed
+            buttonStyles[i] = style;
+        }
+
+        int index = 0;
         for (ObjectMap.Entry<String, String> entry : entries) {
             final String key = entry.key;
             final String value = entry.value;
 
-            TextButton choiceButton = new TextButton(value, skin);
+            TextButton.TextButtonStyle currentStyle = index < buttonStyles.length
+                ? buttonStyles[index]
+                : buttonStyles[0]; // Fallback if more than 4 choices
+
+            TextButton choiceButton = new TextButton(value, currentStyle);
             leftCol.add(choiceButton).center().pad(15).width(500).height(90).row();
 
             choiceButton.addListener(new ChangeListener() {
@@ -104,20 +122,34 @@ public class GameScreen extends BaseScreen {
                     nextQuestion();
                 }
             });
+
+            index++;
         }
 
-        // Create question box
-        Table questionBox = new Table(skin);
-        questionBox.setBackground("textfield");
-        questionLabel = new Label(question.getQuestion(), skin);
+// Load texture and create Drawable
+        Texture textfieldTexture = new Texture(Gdx.files.internal("buttons/textfield.png"));
+        Drawable textfieldDrawable = new Image(textfieldTexture).getDrawable();
+
+// Create font and label style
+        BitmapFont font = new BitmapFont(); // You can replace this with a custom font if desired
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = font;
+
+// Create label
+        questionLabel = new Label(question.getQuestion(), labelStyle);
         questionLabel.setFontScale(1.2f);
         questionLabel.setWrap(true);
         questionLabel.setAlignment(Align.left);
-        questionBox.add(questionLabel).expandX().fillX().pad(20);
+
+// Create question box without skin
+        Table questionBox = new Table();
+        questionBox.setBackground(textfieldDrawable);
+        questionBox.add(questionLabel).expandX().fillX().pad(30);
+
 
         // Build layout
         table.bottom().padBottom(10); // Align top
-        table.add(leftCol).bottom().left().padLeft(100).padRight(30).padBottom(10); // Raise choices up
+        table.add(leftCol).bottom().left().padLeft(130).padRight(30).padBottom(10); // Raise choices up
         table.row();
 
         // Add question box at bottom, centered, with margin on both sides
@@ -128,7 +160,7 @@ public class GameScreen extends BaseScreen {
             .padRight(100)
             .padTop(40)
             .padBottom(30)
-            .height(180)
+            .height(190)
             .center();
     }
 

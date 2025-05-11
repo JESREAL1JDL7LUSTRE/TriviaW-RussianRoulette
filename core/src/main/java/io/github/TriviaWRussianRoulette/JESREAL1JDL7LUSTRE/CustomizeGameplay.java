@@ -86,7 +86,7 @@ public class CustomizeGameplay extends BaseScreen {
 
     private TextButton createStyledButton(String text) {
         TextButton button = new TextButton(text, grayButton);
-        button.getLabel().setFontScale(3f);
+        button.getLabel().setFontScale(1.5f);
         return button;
     }
 
