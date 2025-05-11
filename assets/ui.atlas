@@ -1,0 +1,76 @@
+
+ui.png
+size: 1024, 1024
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+blue_button
+  rotate: false
+  xy: 1, 320
+  size: 454, 156
+  orig: 454, 156
+  offset: 0, 0
+  index: -1
+blue_button-pressed
+  rotate: false
+  xy: 1, 162
+  size: 454, 156
+  orig: 454, 156
+  offset: 0, 0
+  index: -1
+button
+  rotate: false
+  xy: 474, 684
+  size: 454, 156
+  orig: 454, 156
+  offset: 0, 0
+  index: -1
+button-pressed
+  rotate: false
+  xy: 1, 478
+  size: 454, 156
+  orig: 454, 156
+  offset: 0, 0
+  index: -1
+gray_button
+  rotate: false
+  xy: 1, 4
+  size: 454, 156
+  orig: 454, 156
+  offset: 0, 0
+  index: -1
+gray_button-pressed
+  rotate: false
+  xy: 474, 526
+  size: 454, 156
+  orig: 454, 156
+  offset: 0, 0
+  index: -1
+green
+  rotate: false
+  xy: 474, 842
+  size: 471, 101
+  orig: 471, 101
+  offset: 0, 0
+  index: -1
+orange
+  rotate: false
+  xy: 1, 739
+  size: 471, 101
+  orig: 471, 101
+  offset: 0, 0
+  index: -1
+red
+  rotate: false
+  xy: 1, 636
+  size: 471, 101
+  orig: 471, 101
+  offset: 0, 0
+  index: -1
+yellow
+  rotate: false
+  xy: 1, 842
+  size: 471, 101
+  orig: 471, 101
+  offset: 0, 0
+  index: -1

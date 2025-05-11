@@ -17,8 +17,8 @@ public class Burger extends Table {
         Label title = new Label("Trivia Game", skin);
         title.setFontScale(1.5f);
         // Load icon texture (you can share this texture app-wide if needed)
-        this.burgerTexture = new Texture(Gdx.files.internal("img.png"));
-        System.out.println(Gdx.files.internal("img.png").exists());
+        this.burgerTexture = new Texture(Gdx.files.internal("burger.png"));
+        System.out.println(Gdx.files.internal("burger.png").exists());
 
 
         // Create burger menu with items and listener
