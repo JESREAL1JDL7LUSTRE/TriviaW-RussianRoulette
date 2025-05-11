@@ -10,16 +10,14 @@ public class Burger extends Table {
 
     public Burger(Skin skin, Main game) {
         this.game = game;
-        // Set to fill parent container (full screen width)
         this.setFillParent(true);
-        this.top().padTop(10).padLeft(10).padRight(10); // Optional padding
+        this.top().padTop(50).padLeft(30).padRight(20); // Optional padding
 
         Label title = new Label(" ", skin);
-        title.setFontScale(1.5f);
+        title.setFontScale(10f);
         // Load icon texture (you can share this texture app-wide if needed)
-        this.burgerTexture = new Texture(Gdx.files.internal("img.png"));
+        this.burgerTexture = new Texture(Gdx.files.internal("burger.png"));
         System.out.println(Gdx.files.internal("burger.png").exists());
-
 
         // Create burger menu with items and listener
         BurgerMenu burgerMenu = new BurgerMenu(
@@ -55,7 +53,7 @@ public class Burger extends Table {
         burgerMenu.itemList.getSelection().clear();
 
         // Add title on left, expanding space, then button on right
-        float barHeight = 50f; // You can tweak this
+        float barHeight = 70f; // You can tweak this
         this.add(title).left().height(barHeight).expandX().center();
         this.add(burgerMenu).right().height(barHeight).center();
         this.row();

@@ -2,10 +2,13 @@ package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -18,11 +21,12 @@ public class CustomizeGameplay extends BaseScreen {
     }
 
     private Step currentStep = Step.DIFFICULTY;
-
     private int selectedDifficulty = 1;
     private boolean selectedRandomChoices = false;
     private boolean selectedOnDeath = true;
     private Texture bgTexture;
+
+    private TextButton.TextButtonStyle grayButton;
 
     public CustomizeGameplay(Main game) {
         super(game);
@@ -32,6 +36,13 @@ public class CustomizeGameplay extends BaseScreen {
     public void show() {
         stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
+
+        // Load gray button style
+        grayButton = new TextButton.TextButtonStyle();
+        grayButton.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
+        grayButton.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
+        grayButton.font = new BitmapFont();
+
         renderStepUI();
     }
 
@@ -47,7 +58,7 @@ public class CustomizeGameplay extends BaseScreen {
         Table table = new Table();
         table.setFillParent(true);
         table.center();
-        table.defaults().padBottom(30).size(200, 50);
+        table.defaults().padBottom(30).size(250, 70);
         stage.addActor(table);
 
         switch (currentStep) {
@@ -74,8 +85,8 @@ public class CustomizeGameplay extends BaseScreen {
     }
 
     private TextButton createStyledButton(String text) {
-        TextButton button = new TextButton(text, skin);
-        button.getLabel().setFontScale(1f);
+        TextButton button = new TextButton(text, grayButton);
+        button.getLabel().setFontScale(3f);
         return button;
     }
 
