@@ -38,10 +38,10 @@ public class HowToPlay extends BaseScreen {
 
     // Image paths - replace these with your actual image paths
     private final String[] stepImagePaths = {
-        "assets/Home.png",
-        "assets/Home.png",
-        "assets/Home.png",
-        "assets/Home.png"
+        "assets/ForDefaultBg.png",
+        "assets/ForDefaultBg.png",
+        "assets/ForDefaultBg.png",
+        "assets/ForDefaultBg.png"
     };
 
     public HowToPlay(Main game) {
