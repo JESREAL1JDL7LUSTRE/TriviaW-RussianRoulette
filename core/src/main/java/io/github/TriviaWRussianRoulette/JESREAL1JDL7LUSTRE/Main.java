@@ -1,10 +1,15 @@
 package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+
 import java.util.Stack;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
@@ -18,26 +23,19 @@ public class Main extends Game {
 
     @Override
     public void create() {
-        // Initialize asset manager and load UI assets
         assets = new AssetManager();
-        assets.load("assets/uiskin.json", Skin.class);
-        assets.finishLoading();  // or use an async loading screen
 
-        // Grab the skin (and any fonts, textures, etc.)
-        uiSkin = assets.get("assets/uiskin.json", Skin.class);
-        font = new BitmapFont();  // default font; replace with your own if desired
+        assets.load("uiskin.json", Skin.class);
+        assets.finishLoading();
 
-        // Initialize the screen history stack
+        uiSkin = assets.get("uiskin.json", Skin.class);
+
         screenHistory = new Stack<>();
-
-        //bgMusic
-        // Start playing background music automatically when menu opens
         BgMusic.initMusicOptions();
         BgMusic.playBackgroundMusic();
-
-        // Set the very first screen (no history at this point)
         setScreen(new FirstScreen(this));
     }
+
 
     // Override setScreen to manage screen stack
     @Override

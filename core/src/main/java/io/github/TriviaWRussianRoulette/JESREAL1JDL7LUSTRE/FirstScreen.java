@@ -3,12 +3,16 @@ package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class FirstScreen extends BaseScreen {
@@ -36,14 +40,29 @@ public class FirstScreen extends BaseScreen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        // 3) Create buttons
-        TextButton playBtn = new TextButton("Play", game.uiSkin);
-        TextButton optionsBtn = new TextButton("Options", game.uiSkin);
-        TextButton howToPlayBtn = new TextButton("How To Play", game.uiSkin);
-        TextButton aboutBtn = new TextButton("About", game.uiSkin);
-        TextButton exitBtn = new TextButton("Exit", game.uiSkin);
-        TextButton addOwnQuestionsBtn = new TextButton("Add Topic/Questions", game.uiSkin);
-        TextButton addEditQuestionsBtn = new TextButton("Add Edit Questions", game.uiSkin);
+
+        Drawable upDrawable   = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/red_button.png"))));
+        Drawable downDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/red_button_pressed.png"))));
+
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        style.up   = upDrawable;
+        style.down = downDrawable;
+        style.font = new BitmapFont();
+
+        Drawable grayUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
+        Drawable grayDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
+        TextButton.TextButtonStyle grayStyle = new TextButton.TextButtonStyle();
+        grayStyle.up = grayUp;
+        grayStyle.down = grayDown;
+        grayStyle.font = new BitmapFont();
+
+        TextButton playBtn = new TextButton("Play", style);
+        TextButton optionsBtn = new TextButton("Options", grayStyle);
+        TextButton howToPlayBtn = new TextButton("How To Play", grayStyle);
+        TextButton aboutBtn = new TextButton("About", grayStyle);
+        TextButton exitBtn = new TextButton("Exit", grayStyle);
+        TextButton addOwnQuestionsBtn = new TextButton("Add Topic/Questions", grayStyle);
+        TextButton addEditQuestionsBtn = new TextButton("Add Edit Questions", grayStyle);
 
         // 4) Add listeners
         playBtn.addListener(new ChangeListener() {
@@ -91,19 +110,19 @@ public class FirstScreen extends BaseScreen {
         });
 
         // 5) Lay out buttons in the table
-        table.add(playBtn).width(200).height(50).pad(10).padLeft(1000);
+        table.add(playBtn).width(250).height(70).pad(10).padLeft(1000);
         table.row();
-        table.add(addOwnQuestionsBtn).width(200).height(50).pad(10).padLeft(1000);
+        table.add(addOwnQuestionsBtn).width(250).height(70).pad(10).padLeft(1000);
         table.row();
-        table.add(addEditQuestionsBtn).width(200).height(50).pad(10).padLeft(1000);
+        table.add(addEditQuestionsBtn).width(250).height(70).pad(10).padLeft(1000);
         table.row();
-        table.add(optionsBtn).width(200).height(50).pad(10).padLeft(1000);
+        table.add(optionsBtn).width(250).height(70).pad(10).padLeft(1000);
         table.row();
-        table.add(howToPlayBtn).width(200).height(50).pad(10).padLeft(1000);
+        table.add(howToPlayBtn).width(250).height(70).pad(10).padLeft(1000);
         table.row();
-        table.add(aboutBtn).width(200).height(50).pad(10).padLeft(1000);
+        table.add(aboutBtn).width(250).height(70).pad(10).padLeft(1000);
         table.row();
-        table.add(exitBtn).width(200).height(50).pad(10).padLeft(1000);
+        table.add(exitBtn).width(250).height(70).pad(10).padLeft(1000);
     }
 
     @Override
