@@ -2,10 +2,14 @@ package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Array;
 
@@ -13,6 +17,7 @@ public class TopicChoice extends BaseScreen {
     private final CustomizeGameplay customizeGameplay;
     private static final Json json = new Json();
     private Array<String> topicNames; // Store the topic names (or filenames)
+    public Table table;
 
     public TopicChoice(Main game, CustomizeGameplay customizeGameplay) {
         super(game);
@@ -52,7 +57,7 @@ public class TopicChoice extends BaseScreen {
                 // Check if questions were loaded successfully
                 if (questionsArray == null || questionsArray.length == 0) {
                     Gdx.app.error("TopicLoad", "No questions found in file: " + topicName);
-                    return createDefaultTopic(topicName);
+                    return IfNoTopic();
                 }
 
                 // Add all questions to the topic
@@ -66,36 +71,30 @@ public class TopicChoice extends BaseScreen {
             } catch (Exception e) {
                 Gdx.app.error("TopicLoad", "Error parsing JSON: " + e.getMessage());
                 e.printStackTrace();
-                return createDefaultTopic(topicName);
+                return IfNoTopic();
             }
         } else {
             Gdx.app.error("TopicLoad", "Topic file not found: " + topicName);
-            return createDefaultTopic(topicName);
+            return IfNoTopic();
         }
     }
 
-    // Create a default topic with sample questions if file loading fails
-    private TriviaTopic createDefaultTopic(String topicName) {
-        Gdx.app.log("TopicLoad", "Creating default topic for: " + topicName);
-        TriviaTopic defaultTopic = new TriviaTopic(topicName.replace(".json", ""));
+    public TriviaTopic IfNoTopic() {
+        TextButton addOwnQuestionsBtn = new TextButton("Add Topic/Questions", game.uiSkin);
 
-        // Create a sample question
-        Question sampleQuestion = new Question();
-        sampleQuestion.setQuestion("Sample question for " + topicName + "?");
+        addOwnQuestionsBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new AddOwnQuestions(game));
+            }
+        });
 
-        // Add some choices
-        sampleQuestion.getChoices().put("a", "Option A");
-        sampleQuestion.getChoices().put("b", "Option B");
-        sampleQuestion.getChoices().put("c", "Option C");
-        sampleQuestion.getChoices().put("d", "Option D");
+        table.add(addOwnQuestionsBtn).width(200).height(50).pad(10).padLeft(1000);
+        table.row();
 
-        sampleQuestion.setAnswer("a");
-
-        // Add the question to the topic
-        defaultTopic.addQuestion(sampleQuestion);
-
-        return defaultTopic;
+        return null;
     }
+
 
     @Override
     public void show() {
@@ -115,8 +114,7 @@ public class TopicChoice extends BaseScreen {
             final String topicName = topicNames.get(i);
             // Display topic name without .json extension
             String displayName = topicName.replace(".json", "");
-            Label topicLabel = new Label(displayName, skin);
-            topicLabel.setFontScale(1.5f);
+            TextButton  topicLabel = createStyledButton(displayName);
 
             topicLabel.addListener(new ClickListener() {
                 @Override
@@ -146,5 +144,11 @@ public class TopicChoice extends BaseScreen {
         }
 
         stage.addActor(table);
+    }
+
+    private TextButton createStyledButton(String text) {
+        TextButton button = new TextButton(text, skin);
+        button.getLabel().setFontScale(1f);
+        return button;
     }
 }

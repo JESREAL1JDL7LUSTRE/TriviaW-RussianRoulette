@@ -3,11 +3,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class QuestionEditorScreen extends BaseScreen {
 
@@ -42,7 +44,11 @@ public class QuestionEditorScreen extends BaseScreen {
 
     @Override
     public void show() {
-        super.show();
+        stage = new Stage(new ScreenViewport());
+        skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
+
+        Gdx.input.setInputProcessor(stage);
+
         setupUI();
     }
 

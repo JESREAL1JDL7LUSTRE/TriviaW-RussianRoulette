@@ -3,13 +3,12 @@ package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class EditQuestions extends BaseScreen {
 
@@ -23,7 +22,13 @@ public class EditQuestions extends BaseScreen {
 
     @Override
     public void show() {
+        stage = new Stage(new ScreenViewport());
+        skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
+
+        Gdx.input.setInputProcessor(stage);
+
         super.show();
+
         mainTable = new Table();
         mainTable.setFillParent(true);
 
@@ -31,17 +36,8 @@ public class EditQuestions extends BaseScreen {
         Label titleLabel = new Label("Edit Questions", skin);
         titleLabel.setFontScale(2.0f);
 
-        // Create back button
-        TextButton backButton = new TextButton("Back", skin);
-        backButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new FirstScreen(game));
-            }
-        });
-
         // Add components to main table
-        mainTable.add(titleLabel).colspan(6).pad(50);
+        mainTable.add(titleLabel).colspan(6).pad(20);
         mainTable.row();
 
         // Load and display topics
