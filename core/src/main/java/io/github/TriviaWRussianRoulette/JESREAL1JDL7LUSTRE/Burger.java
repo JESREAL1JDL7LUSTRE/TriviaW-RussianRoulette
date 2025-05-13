@@ -50,8 +50,6 @@ public class Burger extends Table {
             }
         );
 
-        burgerMenu.itemList.getSelection().clear();
-
         // Add title on left, expanding space, then button on right
         float barHeight = 70f; // You can tweak this
         this.add(title).left().height(barHeight).expandX().center();
@@ -59,6 +57,8 @@ public class Burger extends Table {
         this.row();
 
     }
+
+
     public void dispose() {
         burgerTexture.dispose();
     }
