@@ -1,6 +1,7 @@
 package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -20,6 +21,10 @@ public class CustomizeGameplay extends BaseScreen {
         ON_DEATH,
         COMPLETE
     }
+
+    Sound loadBullet1 = Gdx.audio.newSound(Gdx.files.internal("Load1bullet.mp3"));
+    Sound loadBullet2 = Gdx.audio.newSound(Gdx.files.internal("Load2bullets.mp3"));
+    Sound loadBullet3 = Gdx.audio.newSound(Gdx.files.internal("Load3bullets.mp3"));
 
     private Step currentStep = Step.DIFFICULTY;
     private int selectedDifficulty = 1;
@@ -130,6 +135,7 @@ public class CustomizeGameplay extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 selectedDifficulty = 1;
                 currentStep = Step.RANDOM_CHOICES;
+                loadBullet1.play();
                 setupStepUI();
                 // No need to re-add burger, it's preserved
             }
@@ -140,6 +146,7 @@ public class CustomizeGameplay extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 selectedDifficulty = 2;
                 currentStep = Step.RANDOM_CHOICES;
+                loadBullet2.play();
                 setupStepUI();
                 // No need to re-add burger, it's preserved
             }
@@ -150,6 +157,7 @@ public class CustomizeGameplay extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 selectedDifficulty = 3;
                 currentStep = Step.RANDOM_CHOICES;
+                loadBullet3.play();
                 setupStepUI();
                 // No need to re-add burger, it's preserved
             }

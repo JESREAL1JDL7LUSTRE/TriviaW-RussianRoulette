@@ -1,6 +1,7 @@
 package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -19,6 +20,8 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import java.util.Random;
 import java.util.*;
+import com.badlogic.gdx.utils.Timer;
+
 
 
 public class GameScreen extends BaseScreen {
@@ -31,6 +34,11 @@ public class GameScreen extends BaseScreen {
     private Table table;
     private Texture backgroundTexture;
     private Image backgroundImage;
+    private static final float DEAD_SOUND_DURATION = 3.2f; // seconds
+    private static final float SAFE_SOUND_DURATION = 4.2f; // seconds
+    private boolean isWaitingForSound = false; // Track if we're waiting for the sound to finish
+    private Array<TextButton> choiceButtons = new Array<>(); // Store references to choice buttons
+
 
     public GameScreen(Main game, TriviaTopic triviaTopic, CustomizeGameplay customizeGameplay) {
         super(game);
@@ -58,6 +66,9 @@ public class GameScreen extends BaseScreen {
         table.setFillParent(true);
         stage.addActor(table); // then UI elements on top
 
+        // Initialize waiting state to false
+        isWaitingForSound = false;
+
         if (triviaTopic.getQuestions() == null || triviaTopic.getQuestions().size == 0) {
             Gdx.app.error("GameScreen", "No questions found for this topic!");
         } else {
@@ -68,7 +79,7 @@ public class GameScreen extends BaseScreen {
 
     private void showQuestion() {
         table.clear();
-
+        choiceButtons.clear(); // Clear previous button references
 
         boolean shuffleChoices = customizeGameplay.randomChoices();
         Question question = triviaTopic.getQuestions().get(currentQuestionIndex);
@@ -111,43 +122,49 @@ public class GameScreen extends BaseScreen {
                 : buttonStyles[0];
 
             TextButton choiceButton = new TextButton(value, currentStyle);
+            choiceButton.setDisabled(false);
+            choiceButton.setTouchable(com.badlogic.gdx.scenes.scene2d.Touchable.enabled);
             leftCol.add(choiceButton).center().pad(15).width(500).height(90).row();
+            choiceButtons.add(choiceButton); // Add to our array of buttons
 
             choiceButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    boolean isCorrect = key.equals(question.getAnswer());
-                    if (isCorrect) {
-                        Gdx.app.log("Answer", "Correct!");
-                    } else {
-                        Gdx.app.log("Answer", "Wrong!");
-                        if (roulette()) {
-                            uponDeath();
+                    if (!isWaitingForSound) { // Only process clicks if not waiting
+                        isWaitingForSound = true; // Set waiting flag
+                        hideAllButtonsExcept(choiceButton); // Hide all buttons except the selected one
+
+                        boolean isCorrect = key.equals(question.getAnswer());
+                        if (isCorrect) {
+                            Gdx.app.log("Answer", "Correct!");
+                            nextQuestion();
+                        } else {
+                            Gdx.app.log("Answer", "Wrong!");
+                            roulette();
                         }
                     }
-                    nextQuestion();
                 }
             });
 
             index++;
         }
 
-// Load texture and create Drawable
+        // Load texture and create Drawable
         Texture textfieldTexture = new Texture(Gdx.files.internal("buttons/textfield.png"));
         Drawable textfieldDrawable = new Image(textfieldTexture).getDrawable();
 
-// Create font and label style
+        // Create font and label style
         BitmapFont font = new BitmapFont(); // You can replace this with a custom font if desired
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = font;
 
-// Create label
+        // Create label
         questionLabel = new Label(question.getQuestion(), labelStyle);
         questionLabel.setFontScale(2.5f);
         questionLabel.setWrap(true);
         questionLabel.setAlignment(Align.left);
 
-// Create question box without skin
+        // Create question box without skin
         Table questionBox = new Table();
         questionBox.setBackground(textfieldDrawable);
         questionBox.add(questionLabel).expandX().fillX().pad(30);
@@ -168,13 +185,46 @@ public class GameScreen extends BaseScreen {
             .padBottom(30)
             .height(190)
             .center();
+
+        // Make sure buttons are visible and enabled when showing a new question
+        isWaitingForSound = false;
+        showAllButtons();
     }
 
+    // Helper method to hide all buttons except the selected one
+    private void hideAllButtonsExcept(TextButton selectedButton) {
+        for (TextButton button : choiceButtons) {
+            if (button != selectedButton) {
+                button.setVisible(false);
+                button.setTouchable(com.badlogic.gdx.scenes.scene2d.Touchable.disabled);
+            } else {
+                // Keep the selected button visible but disabled
+                button.setDisabled(true);
+                button.setTouchable(com.badlogic.gdx.scenes.scene2d.Touchable.disabled);
+                // Optional: Highlight the selected button
+                button.setColor(0.8f, 0.8f, 1f, 1f);
+            }
+        }
+        Gdx.app.log("GameScreen", "Hiding all buttons except selected");
+    }
 
+    // Helper method to show and enable all choice buttons
+    private void showAllButtons() {
+        for (TextButton button : choiceButtons) {
+            button.setVisible(true);
+            button.setDisabled(false);
+            button.setTouchable(com.badlogic.gdx.scenes.scene2d.Touchable.enabled);
+            button.setColor(1f, 1f, 1f, 1f); // Reset color
+        }
+        Gdx.app.log("GameScreen", "All buttons shown and enabled");
+    }
 
     private boolean roulette() {
         int bullets = customizeGameplay.difficulty();
         int shells = 6;
+
+        Sound Safe = Gdx.audio.newSound(Gdx.files.internal("SpinCockShootSafe.mp3"));
+        Sound Dead = Gdx.audio.newSound(Gdx.files.internal("SpinCockShootDead.mp3"));
 
         List<String> values = new ArrayList<>();
 
@@ -193,10 +243,24 @@ public class GameScreen extends BaseScreen {
 
         if (result.equals("1")) {
             System.out.println("You die");
-            return true;  // You got shot
+            Dead.play();
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    uponDeath(); // Delay logic until sound is done
+                }
+            }, DEAD_SOUND_DURATION);
+            return true;
         } else {
             System.out.println("You live");
-            return false; // You survived
+            Safe.play();
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    nextQuestion(); // Continue after sound
+                }
+            }, SAFE_SOUND_DURATION);
+            return false;
         }
     }
 
@@ -218,7 +282,6 @@ public class GameScreen extends BaseScreen {
         } else {
             Gdx.app.exit();
         }
-
     }
 
     @Override
