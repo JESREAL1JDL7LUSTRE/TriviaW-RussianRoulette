@@ -1,8 +1,14 @@
 package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
 public class ChangeMusic extends BaseScreen {
@@ -20,11 +26,14 @@ public class ChangeMusic extends BaseScreen {
 
         Table table = new Table();
         table.setFillParent(true);
+        table.center(); // Center everything horizontally and vertically
         table.pad(50);
         stage.addActor(table);
 
-        // Volume control section
-        table.add(new Label("Music Volume:", skin)).left().padRight(20);
+        // === Volume control ===
+        Label volumeLabel = new Label("Music Volume", skin);
+        volumeLabel.setFontScale(2f);
+        table.add(volumeLabel).center().padBottom(10).row();
 
         volumeSlider = new Slider(0, 1, 0.01f, false, skin);
         volumeSlider.setValue(BgMusic.getVolume());
@@ -33,15 +42,13 @@ public class ChangeMusic extends BaseScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 BgMusic.setVolume(volumeSlider.getValue());
             }
-        }); // <-- fixed closing brace and parenthesis here
+        });
+        table.add(volumeSlider).width(700).padBottom(40).row();
 
-        table.add(volumeSlider).expandX().fillX();
-        table.row().padTop(30);
+        Label musicLabel = new Label("Background Music", skin);
+        musicLabel.setFontScale(2f);
+        table.add(musicLabel).center().padBottom(10).row();
 
-        // Music selection section
-        table.add(new Label("Background Music:", skin)).left().padRight(20);
-
-        // Get available tracks from BgMusic class
         Array<String> trackNames = BgMusic.getAvailableTracks();
         musicSelectBox = new SelectBox<>(skin);
         musicSelectBox.setItems(trackNames);
@@ -63,17 +70,25 @@ public class ChangeMusic extends BaseScreen {
             }
         });
 
-        table.add(musicSelectBox).expandX().fillX();
-        table.row().padTop(10);
+        table.add(musicSelectBox).width(700).padBottom(100).row();
 
-        // Current track display
-        table.add(new Label("Now Playing:", skin)).left().padRight(20);
+        Label nowPlayingLabel = new Label("Now Playing", skin);
+        nowPlayingLabel.setFontScale(2f);
+        table.add(nowPlayingLabel).center().padBottom(10).row();
+
         currentTrackLabel = new Label(BgMusic.getCurrentTrackName(), skin);
-        table.add(currentTrackLabel).left();
-        table.row().padTop(40);
+        currentTrackLabel.setFontScale(1.5f);
+        table.add(currentTrackLabel).center().padBottom(40).row();
 
-        // Add Apply and Back buttons
-        TextButton backButton = new TextButton("Back", skin);
+        Drawable upDrawable   = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
+        Drawable downDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
+
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        style.up   = upDrawable;
+        style.down = downDrawable;
+        style.font = new BitmapFont();
+        TextButton backButton = new TextButton("Back", style);
+        backButton.getLabel().setFontScale(1.4f);
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -81,9 +96,7 @@ public class ChangeMusic extends BaseScreen {
             }
         });
 
-        Table buttonTable = new Table();
-        buttonTable.add(backButton);
-        table.add(buttonTable).colspan(2).center();
+        table.add(backButton).width(200).height(60).center();
     }
 
     private void updateCurrentTrackLabel() {

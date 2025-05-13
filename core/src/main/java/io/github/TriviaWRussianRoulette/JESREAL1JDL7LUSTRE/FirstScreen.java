@@ -49,6 +49,7 @@ public class FirstScreen extends BaseScreen {
         style.down = downDrawable;
         style.font = new BitmapFont();
 
+
         Drawable grayUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
         Drawable grayDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
         TextButton.TextButtonStyle grayStyle = new TextButton.TextButtonStyle();
@@ -57,12 +58,19 @@ public class FirstScreen extends BaseScreen {
         grayStyle.font = new BitmapFont();
 
         TextButton playBtn = new TextButton("Play", style);
+        playBtn.getLabel().setFontScale(1.4f);
         TextButton optionsBtn = new TextButton("Options", grayStyle);
+        optionsBtn.getLabel().setFontScale(1.4f);
         TextButton howToPlayBtn = new TextButton("How To Play", grayStyle);
+        howToPlayBtn.getLabel().setFontScale(1.4f);
         TextButton aboutBtn = new TextButton("About", grayStyle);
+        aboutBtn.getLabel().setFontScale(1.4f);
         TextButton exitBtn = new TextButton("Exit", grayStyle);
+        exitBtn.getLabel().setFontScale(1.4f);
         TextButton addOwnQuestionsBtn = new TextButton("Add Topic/Questions", grayStyle);
+        addOwnQuestionsBtn.getLabel().setFontScale(1.4f);
         TextButton addEditQuestionsBtn = new TextButton("Add Edit Questions", grayStyle);
+        addEditQuestionsBtn.getLabel().setFontScale(1.4f);
 
         // 4) Add listeners
         playBtn.addListener(new ChangeListener() {
