@@ -25,9 +25,11 @@ public class EditQuestions extends BaseScreen {
         stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
 
+        burger = new Burger(skin, game);
+        // Now add burger on top of everything else
+
         Gdx.input.setInputProcessor(stage);
 
-        super.show();
 
         mainTable = new Table();
         mainTable.setFillParent(true);
@@ -37,7 +39,7 @@ public class EditQuestions extends BaseScreen {
         titleLabel.setFontScale(2.0f);
 
         // Add components to main table
-        mainTable.add(titleLabel).colspan(6).pad(20);
+        mainTable.add(titleLabel).colspan(6).pad(50);
         mainTable.row();
 
         // Load and display topics
@@ -45,6 +47,8 @@ public class EditQuestions extends BaseScreen {
         displayTopics();
 
         stage.addActor(mainTable);
+
+        stage.addActor(burger);
     }
 
     private void loadAllTopics() {
