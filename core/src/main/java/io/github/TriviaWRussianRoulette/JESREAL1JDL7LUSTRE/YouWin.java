@@ -28,7 +28,7 @@ public class YouWin extends BaseScreen {
         super.show();
 
         // Load background texture
-        backgroundTexture = new Texture(Gdx.files.internal("GameScreen.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("win.png"));
         backgroundImage = new Image(backgroundTexture);
         backgroundImage.setFillParent(true);
         stage.addActor(backgroundImage);

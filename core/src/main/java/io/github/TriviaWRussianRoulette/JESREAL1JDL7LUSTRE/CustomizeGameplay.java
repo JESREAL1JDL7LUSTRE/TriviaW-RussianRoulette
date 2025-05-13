@@ -92,9 +92,9 @@ public class CustomizeGameplay extends BaseScreen {
 
     private void showDifficultyStep(Table table) {
         Label label = createStyledLabel("Select Difficulty:");
-        TextButton easy = createStyledButton("Easy");
-        TextButton medium = createStyledButton("Medium");
-        TextButton hard = createStyledButton("Hard");
+        TextButton easy = createStyledButton("Easy 1/6 Bullet");
+        TextButton medium = createStyledButton("Medium 2/6 Bullets");
+        TextButton hard = createStyledButton("Hard 3/6 Bullets");
 
         easy.addListener(new ClickListener() {
             @Override
