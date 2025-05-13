@@ -143,7 +143,7 @@ public class GameScreen extends BaseScreen {
 
 // Create label
         questionLabel = new Label(question.getQuestion(), labelStyle);
-        questionLabel.setFontScale(2f);
+        questionLabel.setFontScale(2.5f);
         questionLabel.setWrap(true);
         questionLabel.setAlignment(Align.left);
 
