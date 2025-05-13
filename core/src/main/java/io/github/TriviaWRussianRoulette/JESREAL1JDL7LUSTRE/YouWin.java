@@ -2,12 +2,17 @@ package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 
 public class YouWin extends BaseScreen {
 
@@ -23,24 +28,39 @@ public class YouWin extends BaseScreen {
         super.show();
 
         // Load background texture
-        backgroundTexture = new Texture(Gdx.files.internal("GameScreen.png")); // Adjust path
+        backgroundTexture = new Texture(Gdx.files.internal("GameScreen.png"));
         backgroundImage = new Image(backgroundTexture);
         backgroundImage.setFillParent(true);
-        stage.addActor(backgroundImage); // Add background first (goes behind everything)
+        stage.addActor(backgroundImage);
 
         // Title label
-        Label title = new Label("You Win This time", skin); // optional style
-        title.setFontScale(2);
-        title.setPosition(100, 300);
-        stage.addActor(title);
+        Label title = new Label("You Win This Time!", skin); // optional style
+        title.setFontScale(3);
 
-        // Button table
         Table table = new Table();
         table.setFillParent(true);
+        table.center();
         stage.addActor(table);
 
-        TextButton playBtn = new TextButton("Play Again", game.uiSkin);
-        TextButton exitBtn = new TextButton("Exit", game.uiSkin);
+        Drawable upDrawable   = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/red_button.png"))));
+        Drawable downDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/red_button_pressed.png"))));
+
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        style.up   = upDrawable;
+        style.down = downDrawable;
+        style.font = new BitmapFont();
+
+        Drawable grayUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
+        Drawable grayDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
+        TextButton.TextButtonStyle grayStyle = new TextButton.TextButtonStyle();
+        grayStyle.up = grayUp;
+        grayStyle.down = grayDown;
+        grayStyle.font = new BitmapFont();
+
+        TextButton playBtn = new TextButton("Play Again", style);
+        playBtn.getLabel().setFontScale(1.4f);
+        TextButton exitBtn = new TextButton("Exit", grayStyle);
+        exitBtn.getLabel().setFontScale(1.4f);
 
         playBtn.addListener(new ChangeListener() {
             @Override
@@ -56,9 +76,12 @@ public class YouWin extends BaseScreen {
             }
         });
 
-        table.add(playBtn).width(200).height(50).pad(10).padLeft(1000);
-        table.row();
-        table.add(exitBtn).width(200).height(50).pad(10).padLeft(1000);
+// Layout
+        table.top().padTop(300); // Move everything down a bit from top
+        table.add(title).padBottom(40).colspan(1).center().row();
+        table.add(playBtn).width(250).height(70).pad(10).center().row();
+        table.add(exitBtn).width(250).height(70).pad(10).center();
+
     }
 
     @Override

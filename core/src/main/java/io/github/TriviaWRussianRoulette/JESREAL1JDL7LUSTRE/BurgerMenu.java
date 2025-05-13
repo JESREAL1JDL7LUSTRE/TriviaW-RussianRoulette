@@ -59,7 +59,7 @@ public class BurgerMenu extends Table {
         });
 
         // Layout
-        this.add(burgerButton).size(40, 40).padBottom(5).row();
-        this.add(dropdown).width(100).height(100).left().padTop(5);
+        this.add(burgerButton).size(90, 70).padBottom(5).row();
+        this.add(dropdown).width(120).height(100).left().padTop(5);
     }
 }

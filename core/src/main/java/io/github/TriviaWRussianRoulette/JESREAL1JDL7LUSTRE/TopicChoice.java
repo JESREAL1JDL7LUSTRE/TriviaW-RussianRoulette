@@ -2,6 +2,9 @@ package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -9,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Array;
@@ -89,7 +94,7 @@ public class TopicChoice extends BaseScreen {
             }
         });
 
-        table.add(addOwnQuestionsBtn).width(200).height(50).pad(10).padLeft(1000);
+        table.add(addOwnQuestionsBtn).width(200).height(50).pad(10).padLeft(900);
         table.row();
 
         return null;
@@ -105,9 +110,9 @@ public class TopicChoice extends BaseScreen {
         table.top().left();
         table.setFillParent(false); // Adjust position and size
 
-        table.setPosition(0, 750); // Manually move table down
+        table.setPosition(10, 800); // Manually move table down
         table.pad(10);
-        table.defaults().space(10); // Space between the topics
+        table.defaults().space(15); // Space between the topics
 
         // Loop through topic names and create clickable labels for each
         for (int i = 0; i < topicNames.size; i++) {
@@ -136,7 +141,7 @@ public class TopicChoice extends BaseScreen {
                 }
             });
 
-            table.add(topicLabel).width(300).height(50);
+            table.add(topicLabel).width(300).height(70);
 
             if ((i + 1) % 6 == 0) {
                 table.row(); // Move to the next row in the table
@@ -147,8 +152,17 @@ public class TopicChoice extends BaseScreen {
     }
 
     private TextButton createStyledButton(String text) {
-        TextButton button = new TextButton(text, skin);
-        button.getLabel().setFontScale(1f);
+        Drawable grayUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
+        Drawable grayDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
+
+        TextButton.TextButtonStyle grayStyle = new TextButton.TextButtonStyle();
+        grayStyle.up = grayUp;
+        grayStyle.down = grayDown;
+        grayStyle.font = new BitmapFont();
+
+        // Create the button with the gray style
+        TextButton button = new TextButton(text, grayStyle);
+        button.getLabel().setFontScale(1.5f);
         return button;
     }
 }

@@ -84,7 +84,6 @@ public class GameScreen extends BaseScreen {
             entries.sort((a, b) -> a.key.compareTo(b.key));
         }
 
-        // Create styles using PNGs from buttons/ folder
         TextButton.TextButtonStyle[] buttonStyles = new TextButton.TextButtonStyle[4];
 
         for (int i = 0; i < 4; i++) {
@@ -102,7 +101,7 @@ public class GameScreen extends BaseScreen {
 
             TextButton.TextButtonStyle currentStyle = index < buttonStyles.length
                 ? buttonStyles[index]
-                : buttonStyles[0]; // Fallback if more than 4 choices
+                : buttonStyles[0];
 
             TextButton choiceButton = new TextButton(value, currentStyle);
             leftCol.add(choiceButton).center().pad(15).width(500).height(90).row();
@@ -137,7 +136,7 @@ public class GameScreen extends BaseScreen {
 
 // Create label
         questionLabel = new Label(question.getQuestion(), labelStyle);
-        questionLabel.setFontScale(1.2f);
+        questionLabel.setFontScale(2f);
         questionLabel.setWrap(true);
         questionLabel.setAlignment(Align.left);
 
@@ -149,7 +148,7 @@ public class GameScreen extends BaseScreen {
 
         // Build layout
         table.bottom().padBottom(10); // Align top
-        table.add(leftCol).bottom().left().padLeft(130).padRight(30).padBottom(10); // Raise choices up
+        table.add(leftCol).bottom().left().padLeft(140).padRight(30).padBottom(10); // Raise choices up
         table.row();
 
         // Add question box at bottom, centered, with margin on both sides
