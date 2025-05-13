@@ -1,6 +1,7 @@
 package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -43,19 +44,47 @@ public class CustomizeGameplay extends BaseScreen {
         grayButton.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
         grayButton.font = new BitmapFont();
 
-        renderStepUI();
+        // Create burger first but don't add it yet
+        burger = new Burger(skin, game);
+
+        // Setup the initial UI without adding burger yet
+        setupStepUI();
+
+        // Now add burger on top of everything else
+        stage.addActor(burger);
+
+        // Set input processor to the stage
+        Gdx.input.setInputProcessor(stage);
     }
 
-    private void renderStepUI() {
-        stage.clear();
-        super.show();
-
+    private void setupStepUI() {
+        // Don't clear the stage here - we want to keep the burger
+        // Add or replace background
+        if (bgTexture != null) {
+            bgTexture.dispose();
+        }
         bgTexture = new Texture(Gdx.files.internal("Gameplay.png"));
         Image background = new Image(bgTexture);
         background.setFillParent(true);
-        stage.addActor(background);
+        background.setName("background");
 
+        // Remove old background if it exists
+        if (stage.getRoot().findActor("background") != null) {
+            stage.getRoot().findActor("background").remove();
+        }
+
+        // Add background at the bottom of the z-order
+        stage.addActor(background);
+        background.toBack();
+
+        // Remove old content table if it exists
+        if (stage.getRoot().findActor("contentTable") != null) {
+            stage.getRoot().findActor("contentTable").remove();
+        }
+
+        // Add new content table
         Table table = new Table();
+        table.setName("contentTable");
         table.setFillParent(true);
         table.center();
         table.defaults().padBottom(30).size(250, 70);
@@ -101,7 +130,8 @@ public class CustomizeGameplay extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 selectedDifficulty = 1;
                 currentStep = Step.RANDOM_CHOICES;
-                renderStepUI();
+                setupStepUI();
+                // No need to re-add burger, it's preserved
             }
         });
 
@@ -110,7 +140,8 @@ public class CustomizeGameplay extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 selectedDifficulty = 2;
                 currentStep = Step.RANDOM_CHOICES;
-                renderStepUI();
+                setupStepUI();
+                // No need to re-add burger, it's preserved
             }
         });
 
@@ -119,7 +150,8 @@ public class CustomizeGameplay extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 selectedDifficulty = 3;
                 currentStep = Step.RANDOM_CHOICES;
-                renderStepUI();
+                setupStepUI();
+                // No need to re-add burger, it's preserved
             }
         });
 
@@ -139,7 +171,8 @@ public class CustomizeGameplay extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 selectedRandomChoices = true;
                 currentStep = Step.ON_DEATH;
-                renderStepUI();
+                setupStepUI();
+                // No need to re-add burger, it's preserved
             }
         });
 
@@ -148,7 +181,8 @@ public class CustomizeGameplay extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 selectedRandomChoices = false;
                 currentStep = Step.ON_DEATH;
-                renderStepUI();
+                setupStepUI();
+                // No need to re-add burger, it's preserved
             }
         });
 
@@ -167,7 +201,8 @@ public class CustomizeGameplay extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 selectedOnDeath = true;
                 currentStep = Step.COMPLETE;
-                renderStepUI();
+                setupStepUI();
+                // No need to re-add burger, it's preserved
             }
         });
 
@@ -176,7 +211,8 @@ public class CustomizeGameplay extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 selectedOnDeath = false;
                 currentStep = Step.COMPLETE;
-                renderStepUI();
+                setupStepUI();
+                // No need to re-add burger, it's preserved
             }
         });
 
@@ -199,6 +235,17 @@ public class CustomizeGameplay extends BaseScreen {
 
     public boolean onDeath() {
         return selectedOnDeath;
+    }
+
+    @Override
+    public void render(float delta) {
+        // 1) Clear screen
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // 3) Draw everything
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override

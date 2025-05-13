@@ -39,10 +39,14 @@ public class GameScreen extends BaseScreen {
     }
     @Override
     public void show() {
+
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+        burger = new Burger(skin, game);
+
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         // Background setup
         backgroundTexture = new Texture(Gdx.files.internal("GameScreen.png"));
@@ -58,11 +62,14 @@ public class GameScreen extends BaseScreen {
             Gdx.app.error("GameScreen", "No questions found for this topic!");
         } else {
             showQuestion();
+            stage.addActor(burger);
         }
     }
 
     private void showQuestion() {
         table.clear();
+
+
         boolean shuffleChoices = customizeGameplay.randomChoices();
         Question question = triviaTopic.getQuestions().get(currentQuestionIndex);
 
