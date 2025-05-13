@@ -7,18 +7,18 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class TopicChoice extends BaseScreen {
+    private Texture bgTexture;
     private final CustomizeGameplay customizeGameplay;
     private static final Json json = new Json();
     private Array<String> topicNames; // Store the topic names (or filenames)
@@ -103,8 +103,17 @@ public class TopicChoice extends BaseScreen {
 
     @Override
     public void show() {
-        super.show();
+        stage = new Stage(new ScreenViewport());
+        skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
+
+        bgTexture = new Texture(Gdx.files.internal("ForDefaultBg.png"));
+        Image background = new Image(bgTexture);
+        background.setFillParent(true);
+        stage.addActor(background);
+
         loadAllTopics();
+        // Create burger first but don't add it yet
+        burger = new Burger(skin, game);
 
         Table table = new Table();
         table.top().left();
@@ -149,6 +158,12 @@ public class TopicChoice extends BaseScreen {
         }
 
         stage.addActor(table);
+
+        // Now add burger on top of everything else
+        stage.addActor(burger);
+
+        // Set input processor to the stage
+        Gdx.input.setInputProcessor(stage);
     }
 
     private TextButton createStyledButton(String text) {
