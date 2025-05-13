@@ -110,7 +110,7 @@ public class TopicChoice extends BaseScreen {
         table.top().left();
         table.setFillParent(false); // Adjust position and size
 
-        table.setPosition(10, 800); // Manually move table down
+        table.setPosition(10, 750); // Manually move table down
         table.pad(10);
         table.defaults().space(15); // Space between the topics
 
