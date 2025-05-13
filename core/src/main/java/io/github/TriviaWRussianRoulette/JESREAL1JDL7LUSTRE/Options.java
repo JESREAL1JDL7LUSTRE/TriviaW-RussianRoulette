@@ -1,9 +1,14 @@
 package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
 public class Options extends BaseScreen {
@@ -24,7 +29,16 @@ public class Options extends BaseScreen {
         title.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() - 100, Align.center);
         stage.addActor(title);
 
-        TextButton musicOptionsBtn = new TextButton("Music", game.uiSkin);
+        Drawable upDrawable   = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
+        Drawable downDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
+
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        style.up   = upDrawable;
+        style.down = downDrawable;
+        style.font = new BitmapFont();
+
+        TextButton musicOptionsBtn = new TextButton("Music", style);
+        musicOptionsBtn.getLabel().setFontScale(1.4f);
 
         musicOptionsBtn.addListener(new ChangeListener() {
             @Override
@@ -38,7 +52,7 @@ public class Options extends BaseScreen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        table.add(musicOptionsBtn).width(200).height(50).pad(10).padRight(1000);
+        table.add(musicOptionsBtn).width(250).height(70).pad(10);
 
     }
 }
