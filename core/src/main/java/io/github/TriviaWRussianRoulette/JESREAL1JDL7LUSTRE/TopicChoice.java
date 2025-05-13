@@ -2,6 +2,9 @@ package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -9,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Array;
@@ -147,7 +152,15 @@ public class TopicChoice extends BaseScreen {
     }
 
     private TextButton createStyledButton(String text) {
-        TextButton button = new TextButton(text, skin);
+
+        Drawable grayUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
+        Drawable grayDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
+        TextButton.TextButtonStyle grayStyle = new TextButton.TextButtonStyle();
+        grayStyle.up = grayUp;
+        grayStyle.down = grayDown;
+        grayStyle.font = new BitmapFont();
+
+        TextButton button = new TextButton(text, grayStyle);
         button.getLabel().setFontScale(1f);
         return button;
     }
