@@ -14,13 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-public class YouWin extends BaseScreen {
+public class Lose extends BaseScreen {
 
     private Texture backgroundTexture;
     private Image backgroundImage;
-    private Sound winSound;
+    private Sound loseSound;
 
-    public YouWin(Main game) {
+    public Lose(Main game) {
         super(game);
     }
 
@@ -28,16 +28,16 @@ public class YouWin extends BaseScreen {
     public void show() {
         super.show();
 
-        winSound = Gdx.audio.newSound(Gdx.files.internal("Win.mp3"));
-        winSound.play(1.0f);
+        loseSound = Gdx.audio.newSound(Gdx.files.internal("Lose.mp3"));
+        loseSound.play(1.0f);
 
-        backgroundTexture = new Texture(Gdx.files.internal("win.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("GameScreen.png"));
         backgroundImage = new Image(backgroundTexture);
         backgroundImage.setFillParent(true);
         stage.addActor(backgroundImage);
 
         // Title label
-        Label title = new Label("You Win This Time!", skin); // optional style
+        Label title = new Label("You Lose :(", skin);
         title.setFontScale(3);
 
         Table table = new Table();
@@ -101,6 +101,6 @@ public class YouWin extends BaseScreen {
     public void dispose() {
         super.dispose();
         if (backgroundTexture != null) backgroundTexture.dispose();
-        if (winSound != null) winSound.dispose();
+        if (loseSound != null) loseSound.dispose();
     }
 }

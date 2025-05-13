@@ -278,7 +278,7 @@ public class GameScreen extends BaseScreen {
     private void uponDeath() {
         boolean whatHappen = customizeGameplay.onDeath();
         if (whatHappen){
-            game.setScreen(new io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.FirstScreen(game));
+            game.setScreen(new io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.Lose(game));
         } else {
             Gdx.app.exit();
         }
