@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -27,6 +28,8 @@ public class AddOwnQuestions extends BaseScreen{
     private TextButton nextButton, doneButton, exitButton, deleteButton;
     private final List<Question> questions = new ArrayList<>();
     private int currentQuestionIndex = -1; // -1 means no question is selected
+    private Texture backgroundTexture;
+    private Image backgroundImage;
 
     public AddOwnQuestions(Main game) {
         super(game);
@@ -37,6 +40,11 @@ public class AddOwnQuestions extends BaseScreen{
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+        backgroundTexture = new Texture(Gdx.files.internal("Gameplay.png"));
+        backgroundImage = new Image(backgroundTexture);
+        backgroundImage.setFillParent(true);
+        stage.addActor(backgroundImage);
 
         setupUI();
     }
@@ -529,5 +537,14 @@ public class AddOwnQuestions extends BaseScreen{
     }
 
     @Override public void resize(int width, int height) { stage.getViewport().update(width, height, true); }
-    @Override public void dispose() { stage.dispose(); }
+    @Override
+    public void dispose() {
+        super.dispose();
+        if (backgroundTexture != null) {
+            backgroundTexture.dispose();
+        }
+        if (stage != null) {
+            stage.dispose();
+        }
+    }
 }

@@ -2,10 +2,15 @@ package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -15,6 +20,8 @@ public class EditQuestions extends BaseScreen {
     private Table mainTable;
     private Array<String> topicNames;
     private static final Json json = new Json();
+    private Texture backgroundTexture;
+    private Image backgroundImage;
 
     public EditQuestions(Main game) {
         super(game);
@@ -24,30 +31,29 @@ public class EditQuestions extends BaseScreen {
     public void show() {
         stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
-
         burger = new Burger(skin, game);
-        // Now add burger on top of everything else
+
+        backgroundTexture = new Texture(Gdx.files.internal("Gameplay.png"));
+        backgroundImage = new Image(backgroundTexture);
+        backgroundImage.setFillParent(true);
+        stage.addActor(backgroundImage);
 
         Gdx.input.setInputProcessor(stage);
 
-
         mainTable = new Table();
         mainTable.setFillParent(true);
+        mainTable.top().padTop(40).padLeft(60).padRight(60);
 
-        // Add title
-        Label titleLabel = new Label("Edit Questions", skin);
-        titleLabel.setFontScale(2.0f);
-
-        // Add components to main table
-        mainTable.add(titleLabel).colspan(6).pad(50);
+        // Title
+        Label titleLabel = new Label("Add New Topic or Select to Edit Questions", skin);
+        titleLabel.setFontScale(2f);
+        mainTable.add(titleLabel).center().colspan(6).padBottom(20).padTop(25);
         mainTable.row();
 
-        // Load and display topics
         loadAllTopics();
         displayTopics();
 
         stage.addActor(mainTable);
-
         stage.addActor(burger);
     }
 
@@ -66,37 +72,24 @@ public class EditQuestions extends BaseScreen {
     }
 
     private void displayTopics() {
-        Table topicsTable = new Table();
-        topicsTable.top().left();
-        topicsTable.defaults().space(10);
+        int columns = 5;
+        int buttonWidth = 300;
+        int buttonHeight = 70;
 
-        // Create scrollable table for topics
-        ScrollPane scrollPane = new ScrollPane(topicsTable, skin);
-        scrollPane.setFadeScrollBars(false);
-        scrollPane.setScrollingDisabled(true, false);
+        Table gridTable = new Table();
+        gridTable.defaults().space(15).pad(15);
 
-        // Loop through topic names and create clickable labels for each
-        for (int i = 0; i < topicNames.size; i++) {
-            final String topicName = topicNames.get(i);
-            String displayName = topicName.replace(".json", "");
+        // Add "Create New Topic" button FIRST (above the grid)
+        Drawable upDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/blue_button.png"))));
+        Drawable downDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/blue_button_pressed.png"))));
 
-            TextButton topicButton = new TextButton(displayName, skin);
-            topicButton.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    loadQuestionsForEditing(topicName);
-                }
-            });
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        style.up = upDrawable;
+        style.down = downDrawable;
+        style.font = new BitmapFont();
 
-            topicsTable.add(topicButton).width(300).height(50);
-
-            if ((i + 1) % 6 == 0) {
-                topicsTable.row();
-            }
-        }
-
-        // Add a button to create a new topic
-        TextButton newTopicButton = new TextButton("+ Create New Topic", skin);
+        TextButton newTopicButton = new TextButton("+ Create New Topic", style);
+        newTopicButton.getLabel().setFontScale(1.4f);
         newTopicButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -104,14 +97,38 @@ public class EditQuestions extends BaseScreen {
             }
         });
 
-        // Add an extra row if needed
-        if (topicNames.size % 6 != 0) {
-            topicsTable.row();
+        gridTable.add(newTopicButton).width(buttonWidth).height(buttonHeight).colspan(columns).padBottom(20).center();
+        gridTable.row();
+
+
+        for (int i = 0; i < topicNames.size; i++) {
+            final String topicName = topicNames.get(i);
+            String displayName = topicName.replace(".json", "");
+
+            Drawable grayUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
+            Drawable grayDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
+            TextButton.TextButtonStyle grayStyle = new TextButton.TextButtonStyle();
+            grayStyle.up = grayUp;
+            grayStyle.down = grayDown;
+            grayStyle.font = new BitmapFont();
+
+            TextButton topicButton = new TextButton(displayName, grayStyle);
+            topicButton.getLabel().setFontScale(1.4f);
+            topicButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    loadQuestionsForEditing(topicName);
+                }
+            });
+
+            gridTable.add(topicButton).width(buttonWidth).height(buttonHeight);
+
+            if ((i + 1) % columns == 0) {
+                gridTable.row();
+            }
         }
 
-        topicsTable.add(newTopicButton).width(300).height(50).colspan(6).pad(20);
-
-        mainTable.add(scrollPane).expand().fill().colspan(6);
+        mainTable.add(gridTable).colspan(6).center();
     }
 
     private void loadQuestionsForEditing(String topicName) {
@@ -119,7 +136,6 @@ public class EditQuestions extends BaseScreen {
 
         if (topicFile.exists()) {
             try {
-                // Parse the JSON array directly into an array of Question objects
                 Question[] questionsArray = json.fromJson(Question[].class, topicFile.readString());
 
                 if (questionsArray == null || questionsArray.length == 0) {
@@ -127,13 +143,11 @@ public class EditQuestions extends BaseScreen {
                     questionsArray = new Question[0];
                 }
 
-                // Create a new topic to hold these questions
                 TriviaTopic topic = new TriviaTopic(topicName.replace(".json", ""));
                 for (Question question : questionsArray) {
                     topic.addQuestion(question);
                 }
 
-                // Display question editor screen
                 game.setScreen(new QuestionEditorScreen(game, topic, topicName));
 
             } catch (Exception e) {
@@ -142,10 +156,8 @@ public class EditQuestions extends BaseScreen {
             }
         } else {
             Gdx.app.error("QuestionLoad", "Topic file not found: " + topicName);
-            // Create a new empty topic
             TriviaTopic topic = new TriviaTopic(topicName.replace(".json", ""));
             game.setScreen(new QuestionEditorScreen(game, topic, topicName));
         }
     }
-
 }

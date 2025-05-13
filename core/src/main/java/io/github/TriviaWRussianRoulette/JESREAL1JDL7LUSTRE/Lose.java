@@ -37,7 +37,7 @@ public class Lose extends BaseScreen {
         stage.addActor(backgroundImage);
 
         // Title label
-        Label title = new Label("You Lose :(", skin);
+        Label title = new Label("You Lose  :(", skin);
         title.setFontScale(3);
 
         Table table = new Table();
