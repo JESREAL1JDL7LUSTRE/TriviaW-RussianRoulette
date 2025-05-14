@@ -1,11 +1,19 @@
 package io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -21,6 +29,9 @@ public class QuestionEditorScreen extends BaseScreen {
     private ScrollPane scrollPane;
     private int currentQuestionIndex = -1;
     private static final Json json = new Json();
+    private Texture backgroundTexture;
+    private Image backgroundImage;
+    private Texture frameTexture;
 
     // Editing components
     private TextField questionField;
@@ -29,6 +40,7 @@ public class QuestionEditorScreen extends BaseScreen {
     private TextField optionCField;
     private TextField optionDField;
     private SelectBox<String> correctAnswerSelect;
+    private TextButton saveButton, backButton, deleteButton;
 
     public QuestionEditorScreen(Main game, TriviaTopic topic, String topicFileName) {
         super(game);
@@ -45,9 +57,26 @@ public class QuestionEditorScreen extends BaseScreen {
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
-        skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         Gdx.input.setInputProcessor(stage);
+
+        // Load background textures
+        backgroundTexture = new Texture(Gdx.files.internal("Gameplay.png"));
+        backgroundImage = new Image(backgroundTexture);
+        backgroundImage.setFillParent(true);
+        stage.addActor(backgroundImage);
+
+        frameTexture = new Texture(Gdx.files.internal("frameForWords.png"));
+
+        mainTable = new Table();
+        mainTable.setFillParent(true);
+        stage.addActor(mainTable);
+
+        Image frameImage = new Image(frameTexture);
+        Container<Image> frameContainer = new Container<>(frameImage);
+        frameContainer.fill().pad(50);
+        mainTable.add(frameContainer).expand().fill();
 
         setupUI();
     }
@@ -56,34 +85,37 @@ public class QuestionEditorScreen extends BaseScreen {
         mainTable = new Table();
         mainTable.setFillParent(true);
 
-        // Create title and back button
+        // Create title with background image
+        Texture labelBgTexture = new Texture(Gdx.files.internal("forLabels.png"));
+        Image labelBg = new Image(labelBgTexture);
+        labelBg.setSize(400, 100);
+
         Label titleLabel = new Label("Edit Questions: " + topic.getTopic(), skin);
         titleLabel.setFontScale(1.5f);
+        titleLabel.setAlignment(Align.center);
 
-        TextButton backButton = new TextButton("Back", skin);
-        backButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new EditQuestions(game));
-            }
-        });
+        Stack titleStack = new Stack();
+        titleStack.setSize(400, 100);
+        titleStack.add(labelBg);
+        titleStack.add(titleLabel);
 
-        TextButton saveButton = new TextButton("Save All Changes", skin);
-        saveButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                saveAllChanges();
-            }
-        });
-
-        // Add top controls
-        Table topControls = new Table();
-        topControls.add(backButton).left().padRight(20);
-        topControls.add(titleLabel).expandX();
-        topControls.add(saveButton).right().padLeft(20);
-
-        mainTable.add(topControls).fillX().pad(60);
+        mainTable.add(titleStack).padTop(30).center();
         mainTable.row();
+
+        // Create button styles
+        Drawable grayUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
+        Drawable grayDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
+        TextButton.TextButtonStyle grayStyle = new TextButton.TextButtonStyle();
+        grayStyle.up = grayUp;
+        grayStyle.down = grayDown;
+        grayStyle.font = new BitmapFont();
+
+        Drawable blueUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/blue_button.png"))));
+        Drawable blueDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/blue_button_pressed.png"))));
+        TextButton.TextButtonStyle blueStyle = new TextButton.TextButtonStyle();
+        blueStyle.up = blueUp;
+        blueStyle.down = blueDown;
+        blueStyle.font = new BitmapFont();
 
         // Create split layout - questions list on left, editor on right
         Table splitLayout = new Table();
@@ -113,10 +145,33 @@ public class QuestionEditorScreen extends BaseScreen {
         Table editorPanel = createEditorPanel();
 
         // Add both panels to the split layout
-        splitLayout.add(leftPanel).width(300).expand().fill().pad(5);
-        splitLayout.add(editorPanel).expand().fill().pad(5);
+        splitLayout.add(editorPanel).width(500).expand().fill().padLeft(200).padTop(90);
+        splitLayout.add(leftPanel).width(600).expand().fill().padRight(300).padBottom(50);
 
         mainTable.add(splitLayout).expand().fill();
+        mainTable.row();
+
+        // Bottom buttons
+        backButton = new TextButton("Back", grayStyle);
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new EditQuestions(game));
+            }
+        });
+
+        saveButton = new TextButton("Save All Changes", blueStyle);
+        saveButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                saveAllChanges();
+            }
+        });
+
+        Table bottomButtons = new Table();
+        bottomButtons.add(backButton).width(250).height(70).padRight(20);
+        bottomButtons.add(saveButton).width(250).height(70);
+        mainTable.add(bottomButtons).padBottom(20).center().bottom();
 
         // Populate the questions list
         populateQuestionsList();
@@ -152,15 +207,15 @@ public class QuestionEditorScreen extends BaseScreen {
         correctAnswerSelect.setItems("a", "b", "c", "d");
 
         // Action buttons
-        TextButton saveButton = new TextButton("Save Question", skin);
-        saveButton.addListener(new ClickListener() {
+        TextButton saveQuestionButton = new TextButton("Save Question", skin);
+        saveQuestionButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 saveCurrentQuestion();
             }
         });
 
-        TextButton deleteButton = new TextButton("Delete Question", skin);
+        deleteButton = new TextButton("Delete Question", skin);
         deleteButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -201,8 +256,8 @@ public class QuestionEditorScreen extends BaseScreen {
         editorPanel.row();
 
         Table actionButtons = new Table();
-        actionButtons.add(saveButton).padRight(10);
-        actionButtons.add(deleteButton);
+        actionButtons.add(deleteButton).padRight(10);
+        actionButtons.add(saveQuestionButton);
 
         editorPanel.add(actionButtons).right().padTop(20);
 
@@ -221,7 +276,9 @@ public class QuestionEditorScreen extends BaseScreen {
 
             // Create a button with the question text (truncated if needed)
             String displayText = question.getQuestion();
-            if (displayText.length() > 30) {
+            if (displayText == null || displayText.isEmpty()) {
+                displayText = "New Question";
+            } else if (displayText.length() > 30) {
                 displayText = displayText.substring(0, 27) + "...";
             }
 
@@ -246,7 +303,7 @@ public class QuestionEditorScreen extends BaseScreen {
 
     private void selectQuestion(int index) {
         if (index >= 0 && index < questions.size) {
-            // Save the 현재 question if one was being edited
+            // Save the current question if one was being edited
             if (currentQuestionIndex != -1) {
                 saveCurrentQuestion();
             }
@@ -280,6 +337,7 @@ public class QuestionEditorScreen extends BaseScreen {
         optionCField.setDisabled(!enabled);
         optionDField.setDisabled(!enabled);
         correctAnswerSelect.setDisabled(!enabled);
+        deleteButton.setDisabled(!enabled);
     }
 
     private void saveCurrentQuestion() {
@@ -311,6 +369,8 @@ public class QuestionEditorScreen extends BaseScreen {
             if (questions.size == 0) {
                 currentQuestionIndex = -1;
                 setEditorEnabled(false);
+                clearFields();
+                addNewQuestion(); // Always have at least one question
             } else if (currentQuestionIndex >= questions.size) {
                 currentQuestionIndex = questions.size - 1;
                 selectQuestion(currentQuestionIndex);
@@ -366,7 +426,7 @@ public class QuestionEditorScreen extends BaseScreen {
 
         // Update the topic with all questions
         topic.clearQuestions();
-        for (Question question :questions) {
+        for (Question question : questions) {
             topic.addQuestion(question);
         }
 
@@ -385,5 +445,31 @@ public class QuestionEditorScreen extends BaseScreen {
         successDialog.text("All changes saved successfully!");
         successDialog.button("OK");
         successDialog.show(stage);
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act(delta);
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        if (backgroundTexture != null) {
+            backgroundTexture.dispose();
+        }
+        if (frameTexture != null) {
+            frameTexture.dispose();
+        }
+        if (stage != null) {
+            stage.dispose();
+        }
     }
 }
