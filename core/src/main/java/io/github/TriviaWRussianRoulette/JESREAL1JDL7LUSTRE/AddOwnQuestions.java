@@ -5,10 +5,15 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -30,13 +35,14 @@ public class AddOwnQuestions extends BaseScreen{
     private int currentQuestionIndex = -1; // -1 means no question is selected
     private Texture backgroundTexture;
     private Image backgroundImage;
+    private Texture frameTexture;
 
     public AddOwnQuestions(Main game) {
         super(game);
     }
 
     @Override
-    public void show(){
+    public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("uiskin.json"));
@@ -46,6 +52,17 @@ public class AddOwnQuestions extends BaseScreen{
         backgroundImage.setFillParent(true);
         stage.addActor(backgroundImage);
 
+        frameTexture = new Texture(Gdx.files.internal("frameForWords.png"));
+
+        mainTable = new Table();
+        mainTable.setFillParent(true);
+        stage.addActor(mainTable);
+
+        Image frameImage = new Image(frameTexture);
+        Container<Image> frameContainer = new Container<>(frameImage);
+        frameContainer.fill().pad(50);
+        mainTable.add(frameContainer).expand().fill();
+
         setupUI();
     }
 
@@ -53,11 +70,39 @@ public class AddOwnQuestions extends BaseScreen{
         mainTable = new Table();
         mainTable.setFillParent(true);
 
-        // Create title and controls
+        Texture labelBgTexture = new Texture(Gdx.files.internal("forLabels.png"));
+        Image labelBg = new Image(labelBgTexture);
+
+        labelBg.setSize(400, 100);
+
         Label titleLabel = new Label("Add Your Own Questions", skin);
         titleLabel.setFontScale(1.5f);
+        titleLabel.setAlignment(Align.center);
 
-        exitButton = new TextButton("Back", skin);
+        Stack titleStack = new Stack();
+        titleStack.setSize(400, 100);
+        titleStack.add(labelBg);
+        titleStack.add(titleLabel);
+
+        mainTable.add(titleStack).padTop(30).center();
+        mainTable.row();
+
+        Drawable grayUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
+        Drawable grayDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
+        TextButton.TextButtonStyle grayStyle = new TextButton.TextButtonStyle();
+        grayStyle.up = grayUp;
+        grayStyle.down = grayDown;
+        grayStyle.font = new BitmapFont();
+
+        Drawable upDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/blue_button.png"))));
+        Drawable downDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/blue_button_pressed.png"))));
+
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        style.up = upDrawable;
+        style.down = downDrawable;
+        style.font = new BitmapFont();
+        // Controls
+        exitButton = new TextButton("Back", grayStyle);
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -65,11 +110,11 @@ public class AddOwnQuestions extends BaseScreen{
             }
         });
 
-        doneButton = new TextButton("Save All Questions", skin);
+        doneButton = new TextButton("Save All Questions", style);
         doneButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                saveCurrentQuestion();  // Save final question
+                saveCurrentQuestion();
                 if (questions.size() > 0) {
                     promptForFilenameAndSave();
                 } else {
@@ -81,30 +126,18 @@ public class AddOwnQuestions extends BaseScreen{
             }
         });
 
-        // Add top controls
-        Table topControls = new Table();
-        topControls.add(exitButton).left().padRight(20);
-        topControls.add(titleLabel).expandX();
-        topControls.add(doneButton).right().padLeft(20);
-
-        mainTable.add(topControls).fillX().pad(60);
-        mainTable.row();
-
-        // Create split layout - with questions list on left
+        // Panels and layout
         Table splitLayout = new Table();
 
-        // Questions list on the left
         questionsTable = new Table();
         questionsTable.top().left();
         scrollPane = new ScrollPane(questionsTable, skin);
         scrollPane.setFadeScrollBars(false);
 
-        // Add new question button at the top of the left panel
         TextButton addNewButton = new TextButton("+ Add New Question", skin);
         addNewButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Save the current question if there is one
                 saveCurrentQuestion();
                 addNewQuestion();
             }
@@ -116,20 +149,24 @@ public class AddOwnQuestions extends BaseScreen{
         leftPanel.row();
         leftPanel.add(scrollPane).expand().fill();
 
-        // Question editor on the right
         Table editorPanel = createEditorPanel();
 
-        // Add both panels to the split layout
-        splitLayout.add(leftPanel).width(300).expand().fill().pad(5);
-        splitLayout.add(editorPanel).expand().fill().pad(5);
+        splitLayout.add(editorPanel).width(500).expand().fill().padLeft(200).padTop(90);
+        splitLayout.add(leftPanel).width(600).expand().fill().padRight(300).padBottom(50);
 
         mainTable.add(splitLayout).expand().fill();
+        mainTable.row();
 
-        // Initialize the UI with a blank question
+        // Bottom center buttons
+        Table bottomButtons = new Table();
+        bottomButtons.add(exitButton).width(250).height(70).padRight(20);
+        bottomButtons.add(doneButton).width(250).height(70);
+        mainTable.add(bottomButtons).padBottom(20).center().bottom();
+
         addNewQuestion();
-
         stage.addActor(mainTable);
     }
+
 
     private Table createEditorPanel() {
         Table editorPanel = new Table();
@@ -394,6 +431,11 @@ public class AddOwnQuestions extends BaseScreen{
         dialog.setMovable(false);
         dialog.center();
         stage.addActor(dialog);
+
+        dialog.setPosition(
+            (stage.getWidth() - dialog.getWidth()) / 2,
+            (stage.getHeight() - dialog.getHeight()) / 2
+        );
 
         saveButton.addListener(new ClickListener() {
             @Override
