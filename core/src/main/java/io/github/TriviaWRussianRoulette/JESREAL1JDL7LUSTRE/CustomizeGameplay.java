@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -16,8 +17,10 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class CustomizeGameplay extends BaseScreen {
+
     private enum Step {
         DIFFICULTY,
+        SHOW_GUN_ANIMATION,
         RANDOM_CHOICES,
         ON_DEATH,
         COMPLETE
@@ -34,6 +37,12 @@ public class CustomizeGameplay extends BaseScreen {
     private Texture bgTexture;
 
     private TextButton.TextButtonStyle grayButton;
+    private Table contentTable;
+
+    // Animation related
+    private Animation<TextureRegion> easyGunAnim, mediumGunAnim, hardGunAnim;
+    private float animationTime = 0f;
+    private Image animationImage;
 
     public CustomizeGameplay(Main game) {
         super(game);
@@ -44,28 +53,53 @@ public class CustomizeGameplay extends BaseScreen {
         stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
 
-        // Load gray button style
         grayButton = new TextButton.TextButtonStyle();
         grayButton.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
         grayButton.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
         grayButton.font = new BitmapFont();
 
-        // Create burger first but don't add it yet
         burger = new Burger(skin, game);
-
-        // Setup the initial UI without adding burger yet
-        setupStepUI();
-
-        // Now add burger on top of everything else
         stage.addActor(burger);
 
-        // Set input processor to the stage
+        // Prepare animations
+        prepareGunAnimations();
+
+        setupStepUI();
+
         Gdx.input.setInputProcessor(stage);
     }
 
+    private void prepareGunAnimations() {
+
+        easyGunAnim = loadAnimation("sprites/gun_easy.png", 3, 5, 0.3f);
+        mediumGunAnim = loadAnimation("sprites/gun_medium.png", 3, 5, 0.5f);
+        hardGunAnim = loadAnimation("sprites/gun_hard.png", 4, 5, 0.55f);
+
+        animationImage = new Image();
+        animationImage.setVisible(false);
+        stage.addActor(animationImage);
+    }
+
+    private Animation<TextureRegion> loadAnimation(String filePath, int cols, int rows, float frameDuration) {
+        Texture sheet = new Texture(Gdx.files.internal(filePath));
+        TextureRegion[][] tmp = TextureRegion.split(sheet, sheet.getWidth() / cols, sheet.getHeight() / rows);
+        TextureRegion[] frames = new TextureRegion[cols * rows];
+        int index = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                frames[index++] = tmp[i][j];
+            }
+        }
+        return new Animation<>(frameDuration, frames);
+    }
+
     private void setupStepUI() {
-        // Don't clear the stage here - we want to keep the burger
-        // Add or replace background
+        // Remove previous content table if exists
+        if (contentTable != null) {
+            contentTable.remove();
+            contentTable = null;
+        }
+
         if (bgTexture != null) {
             bgTexture.dispose();
         }
@@ -74,41 +108,49 @@ public class CustomizeGameplay extends BaseScreen {
         background.setFillParent(true);
         background.setName("background");
 
-        // Remove old background if it exists
-        if (stage.getRoot().findActor("background") != null) {
-            stage.getRoot().findActor("background").remove();
-        }
+        Actor oldBg = stage.getRoot().findActor("background");
+        if (oldBg != null) oldBg.remove();
 
-        // Add background at the bottom of the z-order
         stage.addActor(background);
         background.toBack();
 
-        // Remove old content table if it exists
-        if (stage.getRoot().findActor("contentTable") != null) {
-            stage.getRoot().findActor("contentTable").remove();
-        }
 
-        // Add new content table
-        Table table = new Table();
-        table.setName("contentTable");
-        table.setFillParent(true);
-        table.center();
-        table.defaults().padBottom(30).size(250, 70);
-        stage.addActor(table);
+        if (currentStep == Step.SHOW_GUN_ANIMATION) {
+            animationImage.setVisible(true);
+            animationTime = 0f; // reset animation time
+            float width = 700f;
+            float height = 700f;
 
-        switch (currentStep) {
-            case DIFFICULTY:
-                showDifficultyStep(table);
-                break;
-            case RANDOM_CHOICES:
-                showRandomChoicesStep(table);
-                break;
-            case ON_DEATH:
-                showOnDeathStep(table);
-                break;
-            case COMPLETE:
-                goToNextScreen();
-                break;
+            animationImage.setSize(width, height);
+            animationImage.setPosition(
+                (Gdx.graphics.getWidth() - width) / 2f,
+                (Gdx.graphics.getHeight() - height) / 2f
+            );
+
+        } else {
+            animationImage.setVisible(false);
+
+            contentTable = new Table();
+            contentTable.setName("contentTable");
+            contentTable.setFillParent(true);
+            contentTable.center();
+            contentTable.defaults().padBottom(30).size(250, 70);
+            stage.addActor(contentTable);
+
+            switch (currentStep) {
+                case DIFFICULTY:
+                    showDifficultyStep(contentTable);
+                    break;
+                case RANDOM_CHOICES:
+                    showRandomChoicesStep(contentTable);
+                    break;
+                case ON_DEATH:
+                    showOnDeathStep(contentTable);
+                    break;
+                case COMPLETE:
+                    goToNextScreen();
+                    break;
+            }
         }
     }
 
@@ -135,10 +177,9 @@ public class CustomizeGameplay extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 selectedDifficulty = 1;
-                currentStep = Step.RANDOM_CHOICES;
                 loadBullet1.play();
+                currentStep = Step.SHOW_GUN_ANIMATION;
                 setupStepUI();
-                // No need to re-add burger, it's preserved
             }
         });
 
@@ -146,10 +187,9 @@ public class CustomizeGameplay extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 selectedDifficulty = 2;
-                currentStep = Step.RANDOM_CHOICES;
                 loadBullet2.play();
+                currentStep = Step.SHOW_GUN_ANIMATION;
                 setupStepUI();
-                // No need to re-add burger, it's preserved
             }
         });
 
@@ -157,10 +197,9 @@ public class CustomizeGameplay extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 selectedDifficulty = 3;
-                currentStep = Step.RANDOM_CHOICES;
                 loadBullet3.play();
+                currentStep = Step.SHOW_GUN_ANIMATION;
                 setupStepUI();
-                // No need to re-add burger, it's preserved
             }
         });
 
@@ -181,7 +220,6 @@ public class CustomizeGameplay extends BaseScreen {
                 selectedRandomChoices = true;
                 currentStep = Step.ON_DEATH;
                 setupStepUI();
-                // No need to re-add burger, it's preserved
             }
         });
 
@@ -191,7 +229,6 @@ public class CustomizeGameplay extends BaseScreen {
                 selectedRandomChoices = false;
                 currentStep = Step.ON_DEATH;
                 setupStepUI();
-                // No need to re-add burger, it's preserved
             }
         });
 
@@ -211,7 +248,6 @@ public class CustomizeGameplay extends BaseScreen {
                 selectedOnDeath = true;
                 currentStep = Step.COMPLETE;
                 setupStepUI();
-                // No need to re-add burger, it's preserved
             }
         });
 
@@ -221,7 +257,6 @@ public class CustomizeGameplay extends BaseScreen {
                 selectedOnDeath = false;
                 currentStep = Step.COMPLETE;
                 setupStepUI();
-                // No need to re-add burger, it's preserved
             }
         });
 
@@ -234,6 +269,49 @@ public class CustomizeGameplay extends BaseScreen {
         game.setScreen(new TopicChoice(game, this));
     }
 
+    @Override
+    public void render(float delta) {
+        // Clear screen
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // Update animation time if in gun animation step
+        if (currentStep == Step.SHOW_GUN_ANIMATION) {
+            animationTime += delta;
+
+            Animation<TextureRegion> currentAnim;
+            switch (selectedDifficulty) {
+                case 1: currentAnim = easyGunAnim; break;
+                case 2: currentAnim = mediumGunAnim; break;
+                case 3: currentAnim = hardGunAnim; break;
+                default: currentAnim = easyGunAnim; break;
+            }
+
+            TextureRegion frame = currentAnim.getKeyFrame(animationTime, false);
+            animationImage.setDrawable(new TextureRegionDrawable(frame));
+
+            // When animation finishes, proceed to next step
+            if (currentAnim.isAnimationFinished(animationTime)) {
+                currentStep = Step.RANDOM_CHOICES;
+                setupStepUI();
+            }
+        }
+
+        stage.act(delta);
+        stage.draw();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        if (bgTexture != null) bgTexture.dispose();
+        loadBullet1.dispose();
+        loadBullet2.dispose();
+        loadBullet3.dispose();
+        // Dispose of your textures for animations as needed
+    }
+
+    // Getters for selections if needed externally
     public int difficulty() {
         return selectedDifficulty;
     }
@@ -244,22 +322,5 @@ public class CustomizeGameplay extends BaseScreen {
 
     public boolean onDeath() {
         return selectedOnDeath;
-    }
-
-    @Override
-    public void render(float delta) {
-        // 1) Clear screen
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // 3) Draw everything
-        stage.act(delta);
-        stage.draw();
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        if (bgTexture != null) bgTexture.dispose();
     }
 }
