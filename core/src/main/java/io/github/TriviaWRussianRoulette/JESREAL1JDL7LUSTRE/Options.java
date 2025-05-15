@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.Button.Button;
 
 public class Options extends BaseScreen {
     public Options(Main game) {
@@ -29,15 +30,7 @@ public class Options extends BaseScreen {
         title.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() - 100, Align.center);
         stage.addActor(title);
 
-        Drawable upDrawable   = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
-        Drawable downDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
-
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.up   = upDrawable;
-        style.down = downDrawable;
-        style.font = new BitmapFont();
-
-        TextButton musicOptionsBtn = new TextButton("Music", style);
+        TextButton musicOptionsBtn = new TextButton("Music", Button.getGrayStyle());
         musicOptionsBtn.getLabel().setFontScale(1.4f);
 
         musicOptionsBtn.addListener(new ChangeListener() {

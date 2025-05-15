@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.Button.Button;
 
 public class EditQuestions extends BaseScreen {
 
@@ -79,16 +80,7 @@ public class EditQuestions extends BaseScreen {
         Table gridTable = new Table();
         gridTable.defaults().space(15).pad(15);
 
-        // Add "Create New Topic" button FIRST (above the grid)
-        Drawable upDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/blue_button.png"))));
-        Drawable downDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/blue_button_pressed.png"))));
-
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.up = upDrawable;
-        style.down = downDrawable;
-        style.font = new BitmapFont();
-
-        TextButton newTopicButton = new TextButton("+ Create New Topic", style);
+        TextButton newTopicButton = new TextButton("+ Create New Topic", Button.getBlueStyle());
         newTopicButton.getLabel().setFontScale(1.4f);
         newTopicButton.addListener(new ClickListener() {
             @Override
@@ -105,14 +97,7 @@ public class EditQuestions extends BaseScreen {
             final String topicName = topicNames.get(i);
             String displayName = topicName.replace(".json", "");
 
-            Drawable grayUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
-            Drawable grayDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
-            TextButton.TextButtonStyle grayStyle = new TextButton.TextButtonStyle();
-            grayStyle.up = grayUp;
-            grayStyle.down = grayDown;
-            grayStyle.font = new BitmapFont();
-
-            TextButton topicButton = new TextButton(displayName, grayStyle);
+            TextButton topicButton = new TextButton(displayName, Button.getGrayStyle());
             topicButton.getLabel().setFontScale(1.4f);
             topicButton.addListener(new ClickListener() {
                 @Override

@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.Animation.Animate;
+import io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.Button.Button;
 
 public class YouWin extends BaseScreen {
 
@@ -57,26 +58,11 @@ public class YouWin extends BaseScreen {
         table.center();
         stage.addActor(table);
 
-        Drawable upDrawable   = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/red_button.png"))));
-        Drawable downDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/red_button_pressed.png"))));
-
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.up   = upDrawable;
-        style.down = downDrawable;
-        style.font = new BitmapFont();
-
-        Drawable grayUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
-        Drawable grayDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
-        TextButton.TextButtonStyle grayStyle = new TextButton.TextButtonStyle();
-        grayStyle.up = grayUp;
-        grayStyle.down = grayDown;
-        grayStyle.font = new BitmapFont();
-
-        TextButton playBtn = new TextButton("Play Again", style);
+        TextButton playBtn = new TextButton("Play Again", Button.getRedStyle());
         playBtn.getLabel().setFontScale(1.4f);
-        TextButton exitBtn = new TextButton("Exit", grayStyle);
+        TextButton exitBtn = new TextButton("Exit", Button.getGrayStyle());
         exitBtn.getLabel().setFontScale(1.4f);
-        TextButton mainMenuBtn = new TextButton("Main Menu", grayStyle);
+        TextButton mainMenuBtn = new TextButton("Main Menu", Button.getGrayStyle());
         mainMenuBtn.getLabel().setFontScale(1.4f);
 
         playBtn.addListener(new ChangeListener() {

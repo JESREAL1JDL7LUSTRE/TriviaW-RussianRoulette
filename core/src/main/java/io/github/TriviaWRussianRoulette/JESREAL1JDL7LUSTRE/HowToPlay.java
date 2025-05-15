@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.graphics.Color;
+import io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.Button.Button;
 
 public class HowToPlay extends BaseScreen {
 
@@ -111,15 +112,8 @@ public class HowToPlay extends BaseScreen {
         // Navigation buttons row
         Table navTable = new Table();
 
-        // Create golden button style for navigation
-        TextButton.TextButtonStyle goldenButtonStyle = new TextButton.TextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
-        Texture buttonTexture = new Texture(Gdx.files.internal("images/borderForButton.png")); // Using profile border for buttons
-        goldenButtonStyle.up = new TextureRegionDrawable(new TextureRegion(buttonTexture));
-        goldenButtonStyle.font = skin.getFont("default-font");
-        goldenButtonStyle.fontColor = Color.BLACK;
-
         // Back button with golden style
-        TextButton backBtn = new TextButton("<", goldenButtonStyle);
+        TextButton backBtn = new TextButton("<", Button.getGoldenStyle(skin));
         backBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -128,7 +122,7 @@ public class HowToPlay extends BaseScreen {
         });
 
         // Next button with golden style
-        TextButton nextBtn = new TextButton(">", goldenButtonStyle);
+        TextButton nextBtn = new TextButton(">", Button.getGoldenStyle(skin));
         nextBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -140,7 +134,7 @@ public class HowToPlay extends BaseScreen {
         navTable.add(backBtn).size(80, 80).padRight(120);
 
         // Main menu button
-        TextButton menuBtn = new TextButton("Menu", goldenButtonStyle);
+        TextButton menuBtn = new TextButton("Menu", Button.getGoldenStyle(skin));
         menuBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -224,14 +218,8 @@ public class HowToPlay extends BaseScreen {
 
         // Add 'Play Game' button on the final step
         if (stepIndex == Step.DONE.ordinal()) {
-            // Create golden button style for Play Game button
-            TextButton.TextButtonStyle playButtonStyle = new TextButton.TextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
-            Texture buttonTexture = new Texture(Gdx.files.internal("borderForButton.png"));
-            playButtonStyle.up = new TextureRegionDrawable(new TextureRegion(buttonTexture));
-            playButtonStyle.font = skin.getFont("default-font");
-            playButtonStyle.fontColor = Color.BLACK;
-
-            TextButton playBtn = new TextButton("Play Game", playButtonStyle);
+            TextButton playBtn = new TextButton("Play Game", Button.getRedStyle());
+            playBtn.getLabel().setFontScale(1.4f);
             playBtn.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {

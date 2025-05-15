@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.Button.Button;
 
 public class CustomizeGameplay extends BaseScreen {
 
@@ -35,8 +36,6 @@ public class CustomizeGameplay extends BaseScreen {
     private boolean selectedRandomChoices = false;
     private boolean selectedOnDeath = true;
     private Texture bgTexture;
-
-    private TextButton.TextButtonStyle grayButton;
     private Table contentTable;
 
     // Animation related
@@ -52,11 +51,6 @@ public class CustomizeGameplay extends BaseScreen {
     public void show() {
         stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
-
-        grayButton = new TextButton.TextButtonStyle();
-        grayButton.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
-        grayButton.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
-        grayButton.font = new BitmapFont();
 
         burger = new Burger(skin, game);
         stage.addActor(burger);
@@ -162,7 +156,7 @@ public class CustomizeGameplay extends BaseScreen {
     }
 
     private TextButton createStyledButton(String text) {
-        TextButton button = new TextButton(text, grayButton);
+        TextButton button = new TextButton(text, Button.getGrayStyle());
         button.getLabel().setFontScale(1.5f);
         return button;
     }

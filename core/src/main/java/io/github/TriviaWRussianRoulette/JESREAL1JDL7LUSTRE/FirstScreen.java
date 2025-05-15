@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.Button.Button;
 
 public class FirstScreen extends BaseScreen {
     private Texture bgTexture;
@@ -40,33 +41,17 @@ public class FirstScreen extends BaseScreen {
         table.setFillParent(true);
         stage.addActor(table);
 
-
-        Drawable upDrawable   = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/red_button.png"))));
-        Drawable downDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/red_button_pressed.png"))));
-
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.up   = upDrawable;
-        style.down = downDrawable;
-        style.font = new BitmapFont();
-
-        Drawable grayUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
-        Drawable grayDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
-        TextButton.TextButtonStyle grayStyle = new TextButton.TextButtonStyle();
-        grayStyle.up = grayUp;
-        grayStyle.down = grayDown;
-        grayStyle.font = new BitmapFont();
-
-        TextButton playBtn = new TextButton("Play", style);
+        TextButton playBtn = new TextButton("Play", Button.getRedStyle());
         playBtn.getLabel().setFontScale(1.5f);
-        TextButton optionsBtn = new TextButton("Options", grayStyle);
+        TextButton optionsBtn = new TextButton("Options", Button.getGrayStyle());
         optionsBtn.getLabel().setFontScale(1.4f);
-        TextButton howToPlayBtn = new TextButton("How To Play", grayStyle);
+        TextButton howToPlayBtn = new TextButton("How To Play", Button.getGrayStyle());
         howToPlayBtn.getLabel().setFontScale(1.4f);
-        TextButton aboutBtn = new TextButton("About", grayStyle);
+        TextButton aboutBtn = new TextButton("About", Button.getGrayStyle());
         aboutBtn.getLabel().setFontScale(1.4f);
-        TextButton exitBtn = new TextButton("Exit", grayStyle);
+        TextButton exitBtn = new TextButton("Exit", Button.getGrayStyle());
         exitBtn.getLabel().setFontScale(1.4f);
-        TextButton addEditQuestionsBtn = new TextButton("Add/Edit Topic Questions", grayStyle);
+        TextButton addEditQuestionsBtn = new TextButton("Add/Edit Topic Questions", Button.getGrayStyle());
         addEditQuestionsBtn.getLabel().setFontScale(1.3f);
 
         // 4) Add listeners

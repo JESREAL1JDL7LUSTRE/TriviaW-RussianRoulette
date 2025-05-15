@@ -45,6 +45,7 @@ public class GameScreen extends BaseScreen {
     private Label kingSpeechLabel;
     private Image speechBubbleImageWizard;
     private Image speechBubbleImageKing;
+    private Animate gunAnimation; // Added gun animation reference
 
     //speech for wizard
     private final String[] WizardSpeech = {
@@ -170,6 +171,12 @@ public class GameScreen extends BaseScreen {
     private void showQuestion() {
         table.clear();
         choiceButtons.clear(); // Clear previous button references
+
+        // Remove gun animation if it exists
+        if (gunAnimation != null) {
+            gunAnimation.remove();
+            gunAnimation = null;
+        }
 
         // Update speech bubbles with new random text for each question
         updateSpeechBubbles();
@@ -312,12 +319,12 @@ public class GameScreen extends BaseScreen {
         Gdx.app.log("GameScreen", "All buttons shown and enabled");
     }
 
+    Sound Safe = Gdx.audio.newSound(Gdx.files.internal("bgm/SpinCockShootSafe.mp3"));
+    Sound Dead = Gdx.audio.newSound(Gdx.files.internal("bgm/SpinCockShootDead.mp3"));
+
     private boolean roulette() {
         int bullets = customizeGameplay.difficulty();
         int shells = 6;
-
-        Sound Safe = Gdx.audio.newSound(Gdx.files.internal("bgm/SpinCockShootSafe.mp3"));
-        Sound Dead = Gdx.audio.newSound(Gdx.files.internal("bgm/SpinCockShootDead.mp3"));
 
         List<String> values = new ArrayList<>();
 
@@ -336,20 +343,44 @@ public class GameScreen extends BaseScreen {
 
         if (result.equals("1")) {
             System.out.println("You die");
+            // Create animation for bullet hit (yesbullet)
+            gunAnimation = new Animate("sprites/pew_side_yesbullet.png", 1, 2, 2.8f, false, 16);
+            gunAnimation.setSize(100, 100);
+            gunAnimation.setPosition(910, 550);
+            gunAnimation.setFlipX(true);
+            stage.addActor(gunAnimation);
+
             Dead.play();
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
+                    // Remove gun animation
+                    if (gunAnimation != null) {
+                        gunAnimation.remove();
+                        gunAnimation = null;
+                    }
                     uponDeath(); // Delay logic until sound is done
                 }
             }, DEAD_SOUND_DURATION);
             return true;
         } else {
             System.out.println("You live");
+            // Create animation for no bullet (nobullet)
+            gunAnimation = new Animate("sprites/pew_side_nobullet.png", 1, 1, 0.15f, false, 16);
+            gunAnimation.setSize(100, 100);
+            gunAnimation.setPosition(910, 550);
+            gunAnimation.setFlipX(true);
+            stage.addActor(gunAnimation);
+
             Safe.play();
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
+                    // Remove gun animation
+                    if (gunAnimation != null) {
+                        gunAnimation.remove();
+                        gunAnimation = null;
+                    }
                     nextQuestion(); // Continue after sound
                 }
             }, SAFE_SOUND_DURATION);
@@ -362,9 +393,24 @@ public class GameScreen extends BaseScreen {
         if (currentQuestionIndex < triviaTopic.getQuestions().size) {
             showQuestion(); // Show next question
         } else {
-            Gdx.app.log("Game", "All questions answered!");
-            // TODO: Navigate to results screen or summary
-            game.setScreen(new io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.YouWin(game));
+            Dead.play();
+            // pointing to wizard dead
+            gunAnimation = new Animate("sprites/pew_side_yesbullet.png", 1, 2, 2.8f, false, 16);
+            gunAnimation.setSize(100, 100);
+            gunAnimation.setPosition(1310, 550);
+            stage.addActor(gunAnimation);
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    // Remove gun animation
+                    if (gunAnimation != null) {
+                        gunAnimation.remove();
+                        gunAnimation = null;
+                    }
+                    Gdx.app.log("Game", "All questions answered!");
+                    game.setScreen(new io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.YouWin(game));
+                }
+            }, DEAD_SOUND_DURATION);
         }
     }
 
@@ -404,6 +450,9 @@ public class GameScreen extends BaseScreen {
         if (backgroundTexture != null) backgroundTexture.dispose();
         if (wizardAnimation != null) wizardAnimation.dispose();
         if (kingAnimation != null) kingAnimation.dispose();
+        if (gunAnimation != null) gunAnimation.dispose();
+        if (Safe != null) Safe.dispose();
+        if (Dead != null) Dead.dispose();
         // Dispose any game-specific textures or sounds here
     }
 }

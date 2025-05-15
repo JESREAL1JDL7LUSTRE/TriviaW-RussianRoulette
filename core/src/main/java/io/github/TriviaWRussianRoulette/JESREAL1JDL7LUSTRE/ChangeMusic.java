@@ -123,12 +123,8 @@ public class ChangeMusic extends BaseScreen {
         contentTable.add(musicLabel).center().padBottom(10).row();
 
         // Create custom dropdown selector button
-        TextButton.TextButtonStyle dropdownButtonStyle = new TextButton.TextButtonStyle();
-        dropdownButtonStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/red_button.png"))));
-        dropdownButtonStyle.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/red_button_pressed.png"))));
-        dropdownButtonStyle.font = new BitmapFont();
 
-        TextButton dropdownButton = new TextButton(selectedTrack, dropdownButtonStyle);
+        TextButton dropdownButton = new TextButton(selectedTrack, io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.Button.Button.getBlueStyle());
         dropdownButton.getLabel().setFontScale(1.4f);
         contentTable.add(dropdownButton).width(500).height(70).padBottom(20).row();
 
@@ -201,15 +197,7 @@ public class ChangeMusic extends BaseScreen {
 
         // Navigation button row
         Table navTable = new Table();
-
-        // Back button using the same style from HowToPlay
-        TextButton.TextButtonStyle goldenButtonStyle = new TextButton.TextButtonStyle();
-        goldenButtonStyle.up =  new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
-        goldenButtonStyle.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
-        goldenButtonStyle.font = skin.getFont("default-font");
-        goldenButtonStyle.fontColor = Color.WHITE;
-
-        TextButton backButton = new TextButton("Back", goldenButtonStyle);
+        TextButton backButton = new TextButton("Back", io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.Button.Button.getGrayStyle());
         backButton.getLabel().setFontScale(1.4f);
         backButton.addListener(new ChangeListener() {
             @Override

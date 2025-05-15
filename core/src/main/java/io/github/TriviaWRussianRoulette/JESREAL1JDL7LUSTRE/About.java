@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.graphics.Color;
+import io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.Button.Button;
 
 public class About extends BaseScreen {
 
@@ -106,9 +107,9 @@ public class About extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
 
         // Load textures
-        bgTexture = new Texture(Gdx.files.internal("ForDefaultBg.png"));
-        frameTexture = new Texture(Gdx.files.internal("frameForWords.png"));
-        profileBorderTexture = new Texture(Gdx.files.internal("borderForProfile.png"));
+        bgTexture = new Texture(Gdx.files.internal("images/ForDefaultBg.png"));
+        frameTexture = new Texture(Gdx.files.internal("images/frameForWords.png"));
+        profileBorderTexture = new Texture(Gdx.files.internal("images/borderForProfile.png"));
 
         // Set up the background
         Image background = new Image(bgTexture);
@@ -154,15 +155,8 @@ public class About extends BaseScreen {
         // Navigation buttons row
         Table navTable = new Table();
 
-        // Create golden button style for navigation
-        TextButton.TextButtonStyle goldenButtonStyle = new TextButton.TextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
-        Texture buttonTexture = new Texture(Gdx.files.internal("images/borderForButton.png")); // Using profile border for buttons
-        goldenButtonStyle.up = new TextureRegionDrawable(new TextureRegion(buttonTexture));
-        goldenButtonStyle.font = skin.getFont("default-font");
-        goldenButtonStyle.fontColor = Color.BLACK;
-
         // Back button with golden style
-        TextButton backBtn = new TextButton("<", goldenButtonStyle);
+        TextButton backBtn = new TextButton("<", Button.getGoldenStyle(skin));
         backBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -171,7 +165,7 @@ public class About extends BaseScreen {
         });
 
         // Next button with golden style
-        TextButton nextBtn = new TextButton(">", goldenButtonStyle);
+        TextButton nextBtn = new TextButton(">", Button.getGoldenStyle(skin));
         nextBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -184,7 +178,7 @@ public class About extends BaseScreen {
         navTable.add(backBtn).size(80, 80).padRight(120);
 
         // Main menu button
-        TextButton menuBtn = new TextButton("Menu", goldenButtonStyle);
+        TextButton menuBtn = new TextButton("Menu", Button.getGoldenStyle(skin));
         menuBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -418,15 +412,9 @@ public class About extends BaseScreen {
         // Add the content container to the box table
         boxTable.add(contentContainer).pad(20).width(600).height(200).row();
 
-        // Create custom button style for the tutorial button
-        TextButton.TextButtonStyle tutorialButtonStyle = new TextButton.TextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
-        Texture buttonTexture = new Texture(Gdx.files.internal("images/borderForButton.png")); // Using profile border for buttons
-        tutorialButtonStyle.up = new TextureRegionDrawable(new TextureRegion(buttonTexture));
-        tutorialButtonStyle.font = skin.getFont("default-font");
-        tutorialButtonStyle.fontColor = Color.BLACK;
-
         // Tutorial button
-        TextButton tutorialBtn = new TextButton("Go to Tutorial", tutorialButtonStyle);
+        TextButton tutorialBtn = new TextButton("Go to Tutorial", Button.getBlueStyle());
+        tutorialBtn.getLabel().setFontScale(1.4f);
         tutorialBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.Button.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,22 +88,9 @@ public class AddOwnQuestions extends BaseScreen{
         mainTable.add(titleStack).padTop(30).center();
         mainTable.row();
 
-        Drawable grayUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
-        Drawable grayDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
-        TextButton.TextButtonStyle grayStyle = new TextButton.TextButtonStyle();
-        grayStyle.up = grayUp;
-        grayStyle.down = grayDown;
-        grayStyle.font = new BitmapFont();
-
-        Drawable upDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/blue_button.png"))));
-        Drawable downDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/blue_button_pressed.png"))));
-
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.up = upDrawable;
-        style.down = downDrawable;
-        style.font = new BitmapFont();
         // Controls
-        exitButton = new TextButton("Back", grayStyle);
+        exitButton = new TextButton("Back", Button.getGrayStyle());
+        exitButton.getLabel().setFontScale(1.4f);
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -110,7 +98,8 @@ public class AddOwnQuestions extends BaseScreen{
             }
         });
 
-        doneButton = new TextButton("Save All Questions", style);
+        doneButton = new TextButton("Save All Questions", Button.getBlueStyle());
+        doneButton.getLabel().setFontScale(1.4f);
         doneButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

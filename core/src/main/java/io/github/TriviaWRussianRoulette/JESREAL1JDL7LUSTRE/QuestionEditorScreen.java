@@ -5,19 +5,16 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.Button.Button;
 
 public class QuestionEditorScreen extends BaseScreen {
 
@@ -102,21 +99,6 @@ public class QuestionEditorScreen extends BaseScreen {
         mainTable.add(titleStack).padTop(30).center();
         mainTable.row();
 
-        // Create button styles
-        Drawable grayUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button.png"))));
-        Drawable grayDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"))));
-        TextButton.TextButtonStyle grayStyle = new TextButton.TextButtonStyle();
-        grayStyle.up = grayUp;
-        grayStyle.down = grayDown;
-        grayStyle.font = new BitmapFont();
-
-        Drawable blueUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/blue_button.png"))));
-        Drawable blueDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/blue_button_pressed.png"))));
-        TextButton.TextButtonStyle blueStyle = new TextButton.TextButtonStyle();
-        blueStyle.up = blueUp;
-        blueStyle.down = blueDown;
-        blueStyle.font = new BitmapFont();
-
         // Create split layout - questions list on left, editor on right
         Table splitLayout = new Table();
 
@@ -152,7 +134,7 @@ public class QuestionEditorScreen extends BaseScreen {
         mainTable.row();
 
         // Bottom buttons
-        backButton = new TextButton("Back", grayStyle);
+        backButton = new TextButton("Back", Button.getGrayStyle());
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -160,7 +142,7 @@ public class QuestionEditorScreen extends BaseScreen {
             }
         });
 
-        saveButton = new TextButton("Save All Changes", blueStyle);
+        saveButton = new TextButton("Save All Changes", Button.getBlueStyle());
         saveButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
