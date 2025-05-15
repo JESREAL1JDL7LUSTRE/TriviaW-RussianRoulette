@@ -16,8 +16,8 @@ public class Burger extends Table {
         Label title = new Label(" ", skin);
         title.setFontScale(10f);
         // Load icon texture (you can share this texture app-wide if needed)
-        this.burgerTexture = new Texture(Gdx.files.internal("burger.png"));
-        System.out.println(Gdx.files.internal("burger.png").exists());
+        this.burgerTexture = new Texture(Gdx.files.internal("images/burger.png"));
+        System.out.println(Gdx.files.internal("images/burger.png").exists());
 
         // Create burger menu with items and listener
         BurgerMenu burgerMenu = new BurgerMenu(

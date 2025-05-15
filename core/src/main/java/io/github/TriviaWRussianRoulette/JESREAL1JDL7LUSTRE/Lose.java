@@ -30,16 +30,16 @@ public class Lose extends BaseScreen {
     public void show() {
         super.show();
 
-        loseSound = Gdx.audio.newSound(Gdx.files.internal("Lose.mp3"));
+        loseSound = Gdx.audio.newSound(Gdx.files.internal("bgm/Lose.mp3"));
         loseSound.play(1.0f);
 
-        backgroundTexture = new Texture(Gdx.files.internal("GameScreen.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("images/GameScreen.png"));
         backgroundImage = new Image(backgroundTexture);
         backgroundImage.setFillParent(true);
         stage.addActor(backgroundImage);
 
         // Create the king wizard animation (all frames)
-        kingAnimation = new Animate("assets/king_death.png", 3, 4, 0.2f, true);
+        kingAnimation = new Animate("sprites/king_death.png", 3, 4, 0.2f, true);
         // Position the animation in a prominent spot
         kingAnimation.setSize(500, 500);
         kingAnimation.setPosition(

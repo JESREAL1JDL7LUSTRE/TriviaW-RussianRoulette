@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class BgMusic {
     private static Music backgroundMusic;
-    private static String currentTrack = "assets/BrainBloomTrivia.mp3"; // Default track
+    private static String currentTrack = "bgm/BrainBloomTrivia.mp3"; // Default track
     private static float volume = 0.5f;
     private static Array<String> availableTracks;
     private static int currentTrackIndex = 0;

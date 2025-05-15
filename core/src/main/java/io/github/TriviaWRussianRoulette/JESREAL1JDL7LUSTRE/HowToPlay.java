@@ -45,10 +45,10 @@ public class HowToPlay extends BaseScreen {
 
     // Image paths - replace these with your actual image paths
     private final String[] stepImagePaths = {
-        "assets/ForDefaultBg.png",
-        "assets/ForDefaultBg.png",
-        "assets/ForDefaultBg.png",
-        "assets/ForDefaultBg.png"
+        "images/ForDefaultBg.png",
+        "images/ForDefaultBg.png",
+        "images/ForDefaultBg.png",
+        "images/ForDefaultBg.png"
     };
 
     public HowToPlay(Main game) {
@@ -63,9 +63,9 @@ public class HowToPlay extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
 
         // Load textures
-        bgTexture = new Texture(Gdx.files.internal("ForDefaultBg.png"));
-        frameTexture = new Texture(Gdx.files.internal("frameForWords.png"));
-        profileBorderTexture = new Texture(Gdx.files.internal("borderForProfile.png"));
+        bgTexture = new Texture(Gdx.files.internal("images/ForDefaultBg.png"));
+        frameTexture = new Texture(Gdx.files.internal("images/frameForWords.png"));
+        profileBorderTexture = new Texture(Gdx.files.internal("images/borderForProfile.png"));
 
         // Set up the background
         Image background = new Image(bgTexture);
@@ -88,7 +88,7 @@ public class HowToPlay extends BaseScreen {
         overlayTable.setFillParent(true);
         stage.addActor(overlayTable);
 
-        Texture labelTexture = new Texture(Gdx.files.internal("forLabels.png"));
+        Texture labelTexture = new Texture(Gdx.files.internal("images/forLabels.png"));
         labelTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
@@ -113,7 +113,7 @@ public class HowToPlay extends BaseScreen {
 
         // Create golden button style for navigation
         TextButton.TextButtonStyle goldenButtonStyle = new TextButton.TextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
-        Texture buttonTexture = new Texture(Gdx.files.internal("borderForButton.png")); // Using profile border for buttons
+        Texture buttonTexture = new Texture(Gdx.files.internal("images/borderForButton.png")); // Using profile border for buttons
         goldenButtonStyle.up = new TextureRegionDrawable(new TextureRegion(buttonTexture));
         goldenButtonStyle.font = skin.getFont("default-font");
         goldenButtonStyle.fontColor = Color.BLACK;

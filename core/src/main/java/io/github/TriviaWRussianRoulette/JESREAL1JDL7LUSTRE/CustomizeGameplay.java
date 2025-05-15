@@ -23,9 +23,9 @@ public class CustomizeGameplay extends BaseScreen {
         COMPLETE
     }
 
-    Sound loadBullet1 = Gdx.audio.newSound(Gdx.files.internal("Load1bullet.mp3"));
-    Sound loadBullet2 = Gdx.audio.newSound(Gdx.files.internal("Load2bullets.mp3"));
-    Sound loadBullet3 = Gdx.audio.newSound(Gdx.files.internal("Load3bullets.mp3"));
+    Sound loadBullet1 = Gdx.audio.newSound(Gdx.files.internal("bgm/Load1bullet.mp3"));
+    Sound loadBullet2 = Gdx.audio.newSound(Gdx.files.internal("bgm/Load2bullets.mp3"));
+    Sound loadBullet3 = Gdx.audio.newSound(Gdx.files.internal("bgm/Load3bullets.mp3"));
 
     private Step currentStep = Step.DIFFICULTY;
     private int selectedDifficulty = 1;
@@ -69,7 +69,7 @@ public class CustomizeGameplay extends BaseScreen {
         if (bgTexture != null) {
             bgTexture.dispose();
         }
-        bgTexture = new Texture(Gdx.files.internal("Gameplay.png"));
+        bgTexture = new Texture(Gdx.files.internal("images/Gameplay.png"));
         Image background = new Image(bgTexture);
         background.setFillParent(true);
         background.setName("background");

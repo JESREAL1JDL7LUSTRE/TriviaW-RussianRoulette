@@ -24,7 +24,7 @@ public abstract class BaseScreen extends ScreenAdapter {
         stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
 
-        bgTexture = new Texture(Gdx.files.internal("ForDefaultBg.png"));
+        bgTexture = new Texture(Gdx.files.internal("images/ForDefaultBg.png"));
         Image background = new Image(bgTexture);
         background.setFillParent(true);
         stage.addActor(background);

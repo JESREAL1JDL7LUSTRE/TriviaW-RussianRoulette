@@ -36,7 +36,7 @@ public class TopicChoice extends BaseScreen {
         burger = new Burger(skin, game);
 
         // Background
-        bgTexture = new Texture(Gdx.files.internal("ForDefaultBg.png"));
+        bgTexture = new Texture(Gdx.files.internal("images/ForDefaultBg.png"));
         backgroundImage = new Image(bgTexture);
         backgroundImage.setFillParent(true);
         stage.addActor(backgroundImage);

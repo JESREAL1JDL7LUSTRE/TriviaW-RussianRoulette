@@ -88,9 +88,9 @@ public class About extends BaseScreen {
     };
 
     private final String[][] devIndividualImages = {
-        {"defprofile.png", "defprofile.png"},
+        {"defprofile.png", "images/defprofile.png"},
         {"defprofile.png"},
-        {"defprofile.png", "defprofile.png"},
+        {"defprofile.png", "images/defprofile.png"},
         {}
     };
 
@@ -131,7 +131,7 @@ public class About extends BaseScreen {
         overlayTable.setFillParent(true);
         stage.addActor(overlayTable);
 
-        Texture labelTexture = new Texture(Gdx.files.internal("forLabels.png"));
+        Texture labelTexture = new Texture(Gdx.files.internal("images/forLabels.png"));
         labelTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
@@ -156,7 +156,7 @@ public class About extends BaseScreen {
 
         // Create golden button style for navigation
         TextButton.TextButtonStyle goldenButtonStyle = new TextButton.TextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
-        Texture buttonTexture = new Texture(Gdx.files.internal("borderForButton.png")); // Using profile border for buttons
+        Texture buttonTexture = new Texture(Gdx.files.internal("images/borderForButton.png")); // Using profile border for buttons
         goldenButtonStyle.up = new TextureRegionDrawable(new TextureRegion(buttonTexture));
         goldenButtonStyle.font = skin.getFont("default-font");
         goldenButtonStyle.fontColor = Color.BLACK;
@@ -256,7 +256,7 @@ public class About extends BaseScreen {
 
         // Add game logo or screenshot
         try {
-            Texture texture = new Texture(Gdx.files.internal("ForDefaultBg.png"));
+            Texture texture = new Texture(Gdx.files.internal("images/ForDefaultBg.png"));
             Image gameImage = new Image(texture);
 
             Container<Image> imageContainer = new Container<>(gameImage);
@@ -334,7 +334,7 @@ public class About extends BaseScreen {
 
                         // If still not found, use default profile
                         if (!Gdx.files.internal(imagePath).exists()) {
-                            imagePath = "defprofile.png";
+                            imagePath = "images/defprofile.png";
                         }
 
                         Texture profileTexture = new Texture(Gdx.files.internal(imagePath));
@@ -360,7 +360,7 @@ public class About extends BaseScreen {
 
                         // Try loading the default profile picture with border
                         try {
-                            Texture texture = new Texture(Gdx.files.internal("defprofile.png"));
+                            Texture texture = new Texture(Gdx.files.internal("images/defprofile.png"));
                             Image devImage = new Image(texture);
 
                             // Create a stack to layer profile border over the image
@@ -420,7 +420,7 @@ public class About extends BaseScreen {
 
         // Create custom button style for the tutorial button
         TextButton.TextButtonStyle tutorialButtonStyle = new TextButton.TextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
-        Texture buttonTexture = new Texture(Gdx.files.internal("borderForButton.png")); // Using profile border for buttons
+        Texture buttonTexture = new Texture(Gdx.files.internal("images/borderForButton.png")); // Using profile border for buttons
         tutorialButtonStyle.up = new TextureRegionDrawable(new TextureRegion(buttonTexture));
         tutorialButtonStyle.font = skin.getFont("default-font");
         tutorialButtonStyle.fontColor = Color.BLACK;

@@ -33,7 +33,7 @@ public class EditQuestions extends BaseScreen {
         skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
         burger = new Burger(skin, game);
 
-        backgroundTexture = new Texture(Gdx.files.internal("Gameplay.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("images/Gameplay.png"));
         backgroundImage = new Image(backgroundTexture);
         backgroundImage.setFillParent(true);
         stage.addActor(backgroundImage);

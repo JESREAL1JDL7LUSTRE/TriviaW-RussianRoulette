@@ -83,13 +83,13 @@ public class GameScreen extends BaseScreen {
 
 
         // Background setup
-        backgroundTexture = new Texture(Gdx.files.internal("GameScreen.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("images/GameScreen.png"));
         backgroundImage = new Image(backgroundTexture);
         backgroundImage.setFillParent(true);
         stage.addActor(backgroundImage); // add background first
 
         // Setup wizard animation (only first two frames)
-        kingAnimation = new Animate("assets/king_death.png", 4, 4, 0.15f, true, 2);
+        kingAnimation = new Animate("sprites/king_death.png", 4, 4, 0.15f, true, 2);
         kingAnimation.setSize(500, 500); // Set appropriate size
         kingAnimation.setPosition(1200, 400); // Position in top-left area
         // Make the king face the opposite direction (flip horizontally)
@@ -97,13 +97,13 @@ public class GameScreen extends BaseScreen {
         stage.addActor(kingAnimation);
 
         // Setup wizard animation (only first two frames)
-        wizardAnimation = new Animate("assets/wizard_death.png", 4, 4, 0.15f, true, 2);
+        wizardAnimation = new Animate("sprites/wizard_death.png", 4, 4, 0.15f, true, 2);
         wizardAnimation.setSize(500, 500); // Set appropriate size
         wizardAnimation.setPosition(600, 350); // Position in top-left area
         stage.addActor(wizardAnimation);
 
         // Add speech bubble for wizard
-        Texture speechBubbleTextureWizard = new Texture(Gdx.files.internal("speechbubble1.png"));
+        Texture speechBubbleTextureWizard = new Texture(Gdx.files.internal("images/speechbubble1.png"));
         speechBubbleImageWizard = new Image(speechBubbleTextureWizard);
         speechBubbleImageWizard.setSize(300, 150);  // Adjust size as needed
         speechBubbleImageWizard.setPosition(580, 780);  // Position it above characters
@@ -120,7 +120,7 @@ public class GameScreen extends BaseScreen {
         stage.addActor(wizardSpeechLabel);
 
         // Add speech bubble for king
-        Texture speechBubbleTextureKing = new Texture(Gdx.files.internal("speechbubble1.png"));
+        Texture speechBubbleTextureKing = new Texture(Gdx.files.internal("images/speechbubble1.png"));
         speechBubbleImageKing = new Image(speechBubbleTextureKing);
         speechBubbleImageKing.setSize(300, 150);  // Adjust size as needed
         speechBubbleImageKing.setPosition(1190, 800);  // Position it above characters
@@ -316,8 +316,8 @@ public class GameScreen extends BaseScreen {
         int bullets = customizeGameplay.difficulty();
         int shells = 6;
 
-        Sound Safe = Gdx.audio.newSound(Gdx.files.internal("SpinCockShootSafe.mp3"));
-        Sound Dead = Gdx.audio.newSound(Gdx.files.internal("SpinCockShootDead.mp3"));
+        Sound Safe = Gdx.audio.newSound(Gdx.files.internal("bgm/SpinCockShootSafe.mp3"));
+        Sound Dead = Gdx.audio.newSound(Gdx.files.internal("bgm/SpinCockShootDead.mp3"));
 
         List<String> values = new ArrayList<>();
 

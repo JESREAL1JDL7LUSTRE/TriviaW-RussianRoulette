@@ -72,7 +72,7 @@ public class BurgerMenu extends Table {
         burgerButton = new ImageButton(buttonStyle);
 
         // --- Load Textures ---
-        dropdownBackgroundTexture = new Texture(Gdx.files.internal("frameForWords.png"));
+        dropdownBackgroundTexture = new Texture(Gdx.files.internal("images/frameForWords.png"));
         itemBackgroundTexture = new Texture(Gdx.files.internal("buttons/gray_button.png"));
         itemBackgroundTextureOnClick = new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"));
         redButtonTexture = new Texture(Gdx.files.internal("buttons/red_button.png"));

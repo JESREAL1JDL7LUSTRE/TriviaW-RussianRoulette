@@ -49,13 +49,13 @@ public class ChangeMusic extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
 
         // Load textures
-        bgTexture = new Texture(Gdx.files.internal("ForDefaultBg.png"));
-        frameTexture = new Texture(Gdx.files.internal("frameForWords.png"));
-        labelTexture = new Texture(Gdx.files.internal("forLabels.png"));
+        bgTexture = new Texture(Gdx.files.internal("images/ForDefaultBg.png"));
+        frameTexture = new Texture(Gdx.files.internal("images/frameForWords.png"));
+        labelTexture = new Texture(Gdx.files.internal("images/forLabels.png"));
         labelTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         // Load textures for custom dropdown (similar to BurgerMenu)
-        dropdownBackgroundTexture = new Texture(Gdx.files.internal("frameForWords.png"));
+        dropdownBackgroundTexture = new Texture(Gdx.files.internal("images/frameForWords.png"));
         itemBackgroundTexture = new Texture(Gdx.files.internal("buttons/gray_button.png"));
         itemBackgroundTextureOnClick = new Texture(Gdx.files.internal("buttons/gray_button_pressed.png"));
 

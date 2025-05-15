@@ -47,12 +47,12 @@ public class AddOwnQuestions extends BaseScreen{
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        backgroundTexture = new Texture(Gdx.files.internal("Gameplay.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("images/Gameplay.png"));
         backgroundImage = new Image(backgroundTexture);
         backgroundImage.setFillParent(true);
         stage.addActor(backgroundImage);
 
-        frameTexture = new Texture(Gdx.files.internal("frameForWords.png"));
+        frameTexture = new Texture(Gdx.files.internal("images/frameForWords.png"));
 
         mainTable = new Table();
         mainTable.setFillParent(true);
@@ -70,7 +70,7 @@ public class AddOwnQuestions extends BaseScreen{
         mainTable = new Table();
         mainTable.setFillParent(true);
 
-        Texture labelBgTexture = new Texture(Gdx.files.internal("forLabels.png"));
+        Texture labelBgTexture = new Texture(Gdx.files.internal("images/forLabels.png"));
         Image labelBg = new Image(labelBgTexture);
 
         labelBg.setSize(400, 100);

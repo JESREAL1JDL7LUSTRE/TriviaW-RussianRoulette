@@ -62,12 +62,12 @@ public class QuestionEditorScreen extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
 
         // Load background textures
-        backgroundTexture = new Texture(Gdx.files.internal("Gameplay.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("images/Gameplay.png"));
         backgroundImage = new Image(backgroundTexture);
         backgroundImage.setFillParent(true);
         stage.addActor(backgroundImage);
 
-        frameTexture = new Texture(Gdx.files.internal("frameForWords.png"));
+        frameTexture = new Texture(Gdx.files.internal("images/frameForWords.png"));
 
         mainTable = new Table();
         mainTable.setFillParent(true);
@@ -86,7 +86,7 @@ public class QuestionEditorScreen extends BaseScreen {
         mainTable.setFillParent(true);
 
         // Create title with background image
-        Texture labelBgTexture = new Texture(Gdx.files.internal("forLabels.png"));
+        Texture labelBgTexture = new Texture(Gdx.files.internal("images/forLabels.png"));
         Image labelBg = new Image(labelBgTexture);
         labelBg.setSize(400, 100);
 

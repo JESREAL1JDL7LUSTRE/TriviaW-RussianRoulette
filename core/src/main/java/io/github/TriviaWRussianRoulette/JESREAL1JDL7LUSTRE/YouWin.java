@@ -30,16 +30,16 @@ public class YouWin extends BaseScreen {
     public void show() {
         super.show();
 
-        winSound = Gdx.audio.newSound(Gdx.files.internal("Win.mp3"));
+        winSound = Gdx.audio.newSound(Gdx.files.internal("bgm/Win.mp3"));
         winSound.play(1.0f);
 
-        backgroundTexture = new Texture(Gdx.files.internal("win.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("images/win.png"));
         backgroundImage = new Image(backgroundTexture);
         backgroundImage.setFillParent(true);
         stage.addActor(backgroundImage);
 
         // Create the king wizard animation (all frames)
-        wizardAnimation = new Animate("assets/wizard_death.png", 4, 4, 0.2f, true);
+        wizardAnimation = new Animate("sprites/wizard_death.png", 4, 4, 0.2f, true);
         // Position the animation in a prominent spot
         wizardAnimation.setSize(500, 500);
         wizardAnimation.setPosition(
