@@ -13,12 +13,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.Animation.Animate;
 
 public class YouWin extends BaseScreen {
 
     private Texture backgroundTexture;
     private Image backgroundImage;
     private Sound winSound;
+    private Animate wizardAnimation;
 
     public YouWin(Main game) {
         super(game);
@@ -35,6 +37,16 @@ public class YouWin extends BaseScreen {
         backgroundImage = new Image(backgroundTexture);
         backgroundImage.setFillParent(true);
         stage.addActor(backgroundImage);
+
+        // Create the king wizard animation (all frames)
+        wizardAnimation = new Animate("assets/wizard_death.png", 4, 4, 0.2f, true);
+        // Position the animation in a prominent spot
+        wizardAnimation.setSize(500, 500);
+        wizardAnimation.setPosition(
+            Gdx.graphics.getWidth() / 2 - 250,  // Center horizontally
+            Gdx.graphics.getHeight() - 500      // Near top of screen
+        );
+        stage.addActor(wizardAnimation);
 
         // Title label
         Label title = new Label("You Win This Time!", skin); // optional style
@@ -102,5 +114,6 @@ public class YouWin extends BaseScreen {
         super.dispose();
         if (backgroundTexture != null) backgroundTexture.dispose();
         if (winSound != null) winSound.dispose();
+        if (wizardAnimation != null) wizardAnimation.dispose();
     }
 }

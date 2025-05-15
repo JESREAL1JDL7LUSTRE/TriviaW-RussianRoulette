@@ -21,7 +21,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import java.util.Random;
 import java.util.*;
 import com.badlogic.gdx.utils.Timer;
-
+import io.github.TriviaWRussianRoulette.JESREAL1JDL7LUSTRE.Animation.Animate;
 
 
 public class GameScreen extends BaseScreen {
@@ -38,7 +38,33 @@ public class GameScreen extends BaseScreen {
     private static final float SAFE_SOUND_DURATION = 4.2f; // seconds
     private boolean isWaitingForSound = false; // Track if we're waiting for the sound to finish
     private Array<TextButton> choiceButtons = new Array<>(); // Store references to choice buttons
+    private Animate wizardAnimation; // Wizard animation for king sprite
+    private Animate kingAnimation;
+    private Random speechRandom = new Random();
+    private Label wizardSpeechLabel;
+    private Label kingSpeechLabel;
+    private Image speechBubbleImageWizard;
+    private Image speechBubbleImageKing;
 
+    //speech for wizard
+    private final String[] WizardSpeech = {
+        "A question for you king",
+        "Hey bumb King",
+        "Answer this king",
+        "Hello king",
+        "Hello King Arthur",
+        "King Julien"
+    };
+
+    //speech for king
+    private final String[] KingSpeech = {
+        "Speak",
+        "Wizard",
+        "Sorcerer Supreme",
+        "Whats Up",
+        "What do you want",
+        "Why are you here"
+    };
 
     public GameScreen(Main game, TriviaTopic triviaTopic, CustomizeGameplay customizeGameplay) {
         super(game);
@@ -62,6 +88,57 @@ public class GameScreen extends BaseScreen {
         backgroundImage.setFillParent(true);
         stage.addActor(backgroundImage); // add background first
 
+        // Setup wizard animation (only first two frames)
+        kingAnimation = new Animate("assets/king_death.png", 4, 4, 0.15f, true, 2);
+        kingAnimation.setSize(500, 500); // Set appropriate size
+        kingAnimation.setPosition(1200, 400); // Position in top-left area
+        // Make the king face the opposite direction (flip horizontally)
+        kingAnimation.setFlipX(true);
+        stage.addActor(kingAnimation);
+
+        // Setup wizard animation (only first two frames)
+        wizardAnimation = new Animate("assets/wizard_death.png", 4, 4, 0.15f, true, 2);
+        wizardAnimation.setSize(500, 500); // Set appropriate size
+        wizardAnimation.setPosition(600, 350); // Position in top-left area
+        stage.addActor(wizardAnimation);
+
+        // Add speech bubble for wizard
+        Texture speechBubbleTextureWizard = new Texture(Gdx.files.internal("speechbubble1.png"));
+        speechBubbleImageWizard = new Image(speechBubbleTextureWizard);
+        speechBubbleImageWizard.setSize(300, 150);  // Adjust size as needed
+        speechBubbleImageWizard.setPosition(580, 780);  // Position it above characters
+        stage.addActor(speechBubbleImageWizard);
+
+        // Setup wizard speech label
+        Label.LabelStyle wizardLabelStyle = new Label.LabelStyle(new BitmapFont(), com.badlogic.gdx.graphics.Color.BLACK);
+        wizardSpeechLabel = new Label("", wizardLabelStyle);
+        wizardSpeechLabel.setFontScale(2f);
+        wizardSpeechLabel.setPosition(630, 865);  // Position inside speech bubble
+        wizardSpeechLabel.setAlignment(Align.center);
+        wizardSpeechLabel.setWrap(true);
+        wizardSpeechLabel.setWidth(200);  // Keep text within bubble width
+        stage.addActor(wizardSpeechLabel);
+
+        // Add speech bubble for king
+        Texture speechBubbleTextureKing = new Texture(Gdx.files.internal("speechbubble1.png"));
+        speechBubbleImageKing = new Image(speechBubbleTextureKing);
+        speechBubbleImageKing.setSize(300, 150);  // Adjust size as needed
+        speechBubbleImageKing.setPosition(1190, 800);  // Position it above characters
+        stage.addActor(speechBubbleImageKing);
+
+        // Setup king speech label
+        Label.LabelStyle kingLabelStyle = new Label.LabelStyle(new BitmapFont(), com.badlogic.gdx.graphics.Color.BLACK);
+        kingSpeechLabel = new Label("", kingLabelStyle);
+        kingSpeechLabel.setFontScale(2f);
+        kingSpeechLabel.setPosition(1240, 885);  // Position inside speech bubble
+        kingSpeechLabel.setAlignment(Align.center);
+        kingSpeechLabel.setWrap(true);
+        kingSpeechLabel.setWidth(200);  // Keep text within bubble width
+        stage.addActor(kingSpeechLabel);
+
+        // Update speech bubbles with initial random text
+        updateSpeechBubbles();
+
         table = new Table();
         table.setFillParent(true);
         stage.addActor(table); // then UI elements on top
@@ -77,9 +154,25 @@ public class GameScreen extends BaseScreen {
         }
     }
 
+    /**
+     * Updates the speech bubble text with random phrases from the speech arrays
+     */
+    private void updateSpeechBubbles() {
+        // Get random texts
+        String wizardText = WizardSpeech[speechRandom.nextInt(WizardSpeech.length)];
+        String kingText = KingSpeech[speechRandom.nextInt(KingSpeech.length)];
+
+        // Update labels
+        wizardSpeechLabel.setText(wizardText);
+        kingSpeechLabel.setText(kingText);
+    }
+
     private void showQuestion() {
         table.clear();
         choiceButtons.clear(); // Clear previous button references
+
+        // Update speech bubbles with new random text for each question
+        updateSpeechBubbles();
 
         boolean shuffleChoices = customizeGameplay.randomChoices();
         Question question = triviaTopic.getQuestions().get(currentQuestionIndex);
@@ -309,6 +402,8 @@ public class GameScreen extends BaseScreen {
     public void dispose() {
         stage.dispose();
         if (backgroundTexture != null) backgroundTexture.dispose();
+        if (wizardAnimation != null) wizardAnimation.dispose();
+        if (kingAnimation != null) kingAnimation.dispose();
         // Dispose any game-specific textures or sounds here
     }
 }
