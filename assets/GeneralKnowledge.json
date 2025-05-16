@@ -1,0 +1,302 @@
+[
+  {
+    "question": "What does \"USTP\" stand for?",
+    "choices": {
+      "a": "University of Science and Technology of Southern Philippines",
+      "b": "United States Technology Program",
+      "c": "Universal System of Technical Processes",
+      "d": "Underwater Science and Technology Platform"
+    },
+    "answer": "a"
+  },
+  {
+    "question": "What does \"ICT\" stand for in USTP's programs?",
+    "choices": {
+      "a": "International Computing Techniques",
+      "b": "Information and Communications Technology",
+      "c": "Integrated Circuit Technology",
+      "d": "Intelligent Communication Tools"
+    },
+    "answer": "b"
+  },
+  {
+    "question": "Which planet rains diamonds?",
+    "choices": {
+      "a": "Jupiter",
+      "b": "Saturn",
+      "c": "Neptune",
+      "d": "Uranus"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "Who wrote the famous play Romeo and Juliet?",
+    "choices": {
+      "a": "Charles Dickens",
+      "b": "William Shakespeare",
+      "c": "Jane Austen",
+      "d": "Mark Twain"
+    },
+    "answer": "b"
+  },
+  {
+    "question": "What is the tallest mountain in the world?",
+    "choices": {
+      "a": "K2",
+      "b": "Mount Kilimanjaro",
+      "c": "Mount Everest",
+      "d": "Denali"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "Who painted the Mona Lisa?",
+    "choices": {
+      "a": "Vincent van Gogh",
+      "b": "Pablo Picasso",
+      "c": "Leonardo da Vinci",
+      "d": "Michelangelo"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "What is the largest organ in the human body?",
+    "choices": {
+      "a": "Liver",
+      "b": "Brain",
+      "c": "Skin",
+      "d": "Heart"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "What does \"CPU\" stand for?",
+    "choices": {
+      "a": "Central Processing Unit",
+      "b": "Computer Processing Unit",
+      "c": "Core Processing Unit",
+      "d": "Control Processing Unit"
+    },
+    "answer": "a"
+  },
+  {
+    "question": "Which programming language is known as the \"mother of all languages\"?",
+    "choices": {
+      "a": "Java",
+      "b": "Python",
+      "c": "C",
+      "d": "Assembly"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "What is the binary representation of the decimal number 10?",
+    "choices": {
+      "a": "1001",
+      "b": "1010",
+      "c": "1100",
+      "d": "1111"
+    },
+    "answer": "b"
+  },
+  {
+    "question": "Which data structure follows the \"Last In, First Out\" (LIFO) principle?",
+    "choices": {
+      "a": "Queue",
+      "b": "Stack",
+      "c": "Linked List",
+      "d": "Tree"
+    },
+    "answer": "b"
+  },
+  {
+    "question": "What does \"www\" stand for in a website address?",
+    "choices": {
+      "a": "World Wide Web",
+      "b": "Web World Wide",
+      "c": "Wide World Web",
+      "d": "World Web Wide"
+    },
+    "answer": "a"
+  },
+  {
+    "question": "In networking, what does \"IP\" stand for?",
+    "choices": {
+      "a": "Internet Protocol",
+      "b": "Internal Processing",
+      "c": "Interconnected Pathways",
+      "d": "Integrated Port"
+    },
+    "answer": "a"
+  },
+  {
+    "question": "Which programming language uses \"print()\" for output and was created in 1991?",
+    "choices": {
+      "a": "Java",
+      "b": "C++",
+      "c": "Python",
+      "d": "Ruby"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "What is the binary equivalent of the decimal number 15?",
+    "choices": {
+      "a": "1001",
+      "b": "1100",
+      "c": "1111",
+      "d": "1010"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "Which language has the most native speakers?",
+    "choices": {
+      "a": "English",
+      "b": "Spanish",
+      "c": "Mandarin Chinese",
+      "d": "Hindi"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "How many islands does the Philippines have?",
+    "choices": {
+      "a": "7,641",
+      "b": "7,107",
+      "c": "8,000",
+      "d": "6,500"
+    },
+    "answer": "b"
+  },
+  {
+    "question": "Which desert is the largest in the world?",
+    "choices": {
+      "a": "Gobi",
+      "b": "Kalahari",
+      "c": "Sahara",
+      "d": "Antarctic Desert"
+    },
+    "answer": "d"
+  },
+  {
+    "question": "Which city in the Philippines is known as the \"City of Golden Friendship\"?",
+    "choices": {
+      "a": "Davao City",
+      "b": "Cebu City",
+      "c": "Cagayan de Oro",
+      "d": "Iloilo City"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "Which organ in the human body produces insulin?",
+    "choices": {
+      "a": "Liver",
+      "b": "Kidney",
+      "c": "Pancreas",
+      "d": "Heart"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "Which vitamin do we get from sunlight?",
+    "choices": {
+      "a": "Vitamin A",
+      "b": "Vitamin B12",
+      "c": "Vitamin D",
+      "d": "Vitamin K"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "Who is the creator of the Marvel character Spider-Man?",
+    "choices": {
+      "a": "Stan Lee",
+      "b": "Walt Disney",
+      "c": "J.K. Rowling",
+      "d": "George Lucas"
+    },
+    "answer": "a"
+  },
+  {
+    "question": "What is the name of the wizarding school in \"Harry Potter\"?",
+    "choices": {
+      "a": "Narnia",
+      "b": "Hogwarts",
+      "c": "Westeros",
+      "d": "Middle-Earth"
+    },
+    "answer": "b"
+  },
+  {
+    "question": "Who was the first female President of the Philippines?",
+    "choices": {
+      "a": "Leni Robredo",
+      "b": "Gloria Macapagal-Arroyo",
+      "c": "Corazon Aquino",
+      "d": "Miriam Defensor-Santiago"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "Who was the first President of the Philippines?",
+    "choices": {
+      "a": "Emilio Aguinaldo",
+      "b": "Manuel L. Quezon",
+      "c": "José P. Laurel",
+      "d": "Sergio Osmeña"
+    },
+    "answer": "a"
+  },
+  {
+    "question": "What year did World War II end?",
+    "choices": {
+      "a": "1942",
+      "b": "1945",
+      "c": "1950",
+      "d": "1939"
+    },
+    "answer": "b"
+  },
+  {
+    "question": "Which of the following is a popular Filipino dish?",
+    "choices": {
+      "a": "Sinigang",
+      "b": "Adobo",
+      "c": "Kare-Kare",
+      "d": "Lechon"
+    },
+    "answer": "d"
+  },
+  {
+    "question": "What wall was torn down in 1989?",
+    "choices": {
+      "a": "Great Wall of China",
+      "b": "Wall of Berlin",
+      "c": "Wall Street",
+      "d": "Kremlin Wall"
+    },
+    "answer": "b"
+  },
+  {
+    "question": "Who discovered penicillin?",
+    "choices": {
+      "a": "Albert Einstein",
+      "b": "Louis Pasteur",
+      "c": "Alexander Fleming",
+      "d": "Isaac Newton"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "What is the national sport of the Philippines?",
+    "choices": {
+      "a": "Basketball",
+      "b": "Arnis",
+      "c": "Karate",
+      "d": "Judo"
+    },
+    "answer": "b"
+  }
+]

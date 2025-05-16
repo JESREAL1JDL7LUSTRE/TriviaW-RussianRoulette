@@ -39,17 +39,17 @@ public class HowToPlay extends BaseScreen {
 
     private final String[] stepContents = {
         "Welcome to Trivia with Russian Roulette!\n\nThis game combines trivia knowledge with the thrill of chance. Answer questions correctly to earn points, but be careful - wrong answers might trigger the roulette!",
-        "Each round, you'll be presented with multiple-choice questions. Select your answer carefully. If you're correct, you'll earn points based on difficulty. If you're wrong, you might lose points or face the dreaded roulette wheel!",
-        "Tips for success:\n• Read questions carefully\n• Use your lifelines wisely\n• Balance risk and reward\n• Remember that harder questions are worth more points",
+        "Each round, you'll be presented with multiple-choice questions. Select your answer carefully. If you're correct you move on. If you're wrong, you might die or get lucky when facing the dreaded roulette wheel!",
+        "Tips for success:\n• Read questions carefully\n• Study Well\n• Be smart dont be a dumdum",
         "Congratulations! You now know how to play Trivia with Russian Roulette. Press 'Play Game' to start your adventure, or review the instructions again if needed."
     };
 
     // Image paths - replace these with your actual image paths
     private final String[] stepImagePaths = {
-        "images/ForDefaultBg.png",
-        "images/ForDefaultBg.png",
-        "images/ForDefaultBg.png",
-        "images/ForDefaultBg.png"
+        "assets/images/Logo.png",
+        "assets/images/HTP2.png",
+        "assets/images/HTP3.png",
+        "assets/images/Logo.png"
     };
 
     public HowToPlay(Main game) {

@@ -45,8 +45,8 @@ public class About extends BaseScreen {
             "This game combines trivia knowledge with the thrill of chance. " +
             "Answer questions correctly to earn points, but be careful - " +
             "wrong answers might trigger the roulette!\n\n" +
-            "This project was created by students from [Your University/School Name] " +
-            "as part of their [Course/Program Name] requirements.\n\n" +
+            "This project was created by students from USTP " +
+            "as part of their Computer Science Course requirements.\n\n" +
             "Navigate through the pages to learn more about our development team.";
 
     // Developer descriptions
@@ -55,12 +55,12 @@ public class About extends BaseScreen {
             "From implementing the trivia system to creating the roulette mechanics, " +
             "they built every aspect of the game's functionality.",
 
-        "The prototype designer crafted the initial concept and game flow. " +
-            "Their vision helped shape what the game would become and provided " +
-            "the blueprint for development.",
+        "The prototype designer crafted the initial concept and game flow. \n" +
+            "Her vision helped shape what the game would become and provided " +
+            "the blueprint for development. Also made all our sprites.",
 
-        "Our talented sprite artists created all the visual elements you see in the game. " +
-            "Their creativity and artistic skills gave our game its unique look and feel.",
+        "Our talented members who gave the questions for us to put in the game. " +
+            "Their creativity gave our game its unique questions.",
 
         "Want to learn how to play? Check out our comprehensive tutorial to master " +
             "the game mechanics and develop winning strategies!"
@@ -75,23 +75,23 @@ public class About extends BaseScreen {
     };
 
     private final String[][] devEmails = {
-        {"jesreal@email.com", "bea@email.com"},
-        {"angel@email.com"},
-        {"gil@email.com", "franilyn@email.com"},
+        {"Lustre.Jesreal.ustp@gmail.com", "bacaling.beaclarise@gmail.com"},
+        {"angeltaglucop099@gmail.com"},
+        {"naldoza.gil30@gmail.com", "franilyn@email.com"},
         {}
     };
 
     private final String[][] devLinks = {
-        {"github.com/jesreal", "github.com/bea"},
-        {"github.com/angel"},
-        {"github.com/gil", "github.com/franilyn"},
+        {"github.com/JESREAL1JDL7LUSTRE", "github.com/baeeyuh"},
+        {"github.com/angel-jane"},
+        {"github.com/GilNaldoza", "github.com/franilyn"},
         {}
     };
 
     private final String[][] devIndividualImages = {
-        {"defprofile.png", "images/defprofile.png"},
-        {"defprofile.png"},
-        {"defprofile.png", "images/defprofile.png"},
+        {"assets/images/Profiles/Jesreal.png", "assets/images/Profiles/Bea.jpg"},
+        {"assets/images/Profiles/Angel.jpg"},
+        {"assets/images/Profiles/Gil.jpg", "assets/images/Profiles/Franillyn.jpg"},
         {}
     };
 
@@ -250,7 +250,7 @@ public class About extends BaseScreen {
 
         // Add game logo or screenshot
         try {
-            Texture texture = new Texture(Gdx.files.internal("images/ForDefaultBg.png"));
+            Texture texture = new Texture(Gdx.files.internal("assets/images/Logo.png"));
             Image gameImage = new Image(texture);
 
             Container<Image> imageContainer = new Container<>(gameImage);
