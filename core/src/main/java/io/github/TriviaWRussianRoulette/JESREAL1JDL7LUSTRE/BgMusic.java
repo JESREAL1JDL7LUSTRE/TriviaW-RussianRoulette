@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class BgMusic {
     private static Music backgroundMusic;
-    private static String currentTrack = "bgm/BrainBloomTrivia.mp3"; // Default track
+    private static String currentTrack = "BrainBloomTrivia.mp3"; // Default track
     private static float volume = 0.5f;
     private static Array<String> availableTracks;
     private static int currentTrackIndex = 0;
@@ -66,7 +66,7 @@ public class BgMusic {
         }
 
         // Set current track (add assets/ prefix if not present)
-        currentTrack = trackName.startsWith("assets/") ? trackName : "assets/" + trackName;
+        currentTrack = trackName.startsWith("assets/bgm/") ? trackName : "assets/bgm/" + trackName;
 
         // Update current track index
         if (availableTracks != null) {
