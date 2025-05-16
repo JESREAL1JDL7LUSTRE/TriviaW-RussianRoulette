@@ -1,0 +1,42 @@
+[
+  {
+    "question": "Who wrote the famous play Romeo and Juliet?",
+    "choices": {
+      "a": "Charles Dickens",
+      "b": "William Shakespeare",
+      "c": "Jane Austen",
+      "d": "Mark Twain"
+    },
+    "answer": "b"
+  },
+  {
+    "question": "Who painted the Mona Lisa?",
+    "choices": {
+      "a": "Vincent van Gogh",
+      "b": "Pablo Picasso",
+      "c": "Leonardo da Vinci",
+      "d": "Michelangelo"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "What is the name of the wizarding school in \"Harry Potter\"?",
+    "choices": {
+      "a": "Narnia",
+      "b": "Hogwarts",
+      "c": "Westeros",
+      "d": "Middle-Earth"
+    },
+    "answer": "b"
+  },
+  {
+    "question": "Who is the creator of the Marvel character Spider-Man?",
+    "choices": {
+      "a": "Stan Lee",
+      "b": "Walt Disney",
+      "c": "J.K. Rowling",
+      "d": "George Lucas"
+    },
+    "answer": "a"
+  }
+]

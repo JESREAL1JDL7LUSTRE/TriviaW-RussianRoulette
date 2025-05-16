@@ -1,0 +1,62 @@
+[
+  {
+    "question": "How many islands does the Philippines have?",
+    "choices": {
+      "a": "7,641",
+      "b": "7,107",
+      "c": "8,000",
+      "d": "6,500"
+    },
+    "answer": "b"
+  },
+  {
+    "question": "Which city in the Philippines is known as the \"City of Golden Friendship\"?",
+    "choices": {
+      "a": "Davao City",
+      "b": "Cebu City",
+      "c": "Cagayan de Oro",
+      "d": "Iloilo City"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "Who was the first female President of the Philippines?",
+    "choices": {
+      "a": "Leni Robredo",
+      "b": "Gloria Macapagal-Arroyo",
+      "c": "Corazon Aquino",
+      "d": "Miriam Defensor-Santiago"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "Who was the first President of the Philippines?",
+    "choices": {
+      "a": "Emilio Aguinaldo",
+      "b": "Manuel L. Quezon",
+      "c": "José P. Laurel",
+      "d": "Sergio Osmeña"
+    },
+    "answer": "a"
+  },
+  {
+    "question": "Which of the following is a popular Filipino dish?",
+    "choices": {
+      "a": "Sinigang",
+      "b": "Adobo",
+      "c": "Kare-Kare",
+      "d": "Lechon"
+    },
+    "answer": "d"
+  },
+  {
+    "question": "What is the national sport of the Philippines?",
+    "choices": {
+      "a": "Basketball",
+      "b": "Arnis",
+      "c": "Karate",
+      "d": "Judo"
+    },
+    "answer": "b"
+  }
+]

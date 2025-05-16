@@ -1,0 +1,22 @@
+[
+  {
+    "question": "What does \"USTP\" stand for?",
+    "choices": {
+      "a": "University of Science and Technology of Southern Philippines",
+      "b": "United States Technology Program",
+      "c": "Universal System of Technical Processes",
+      "d": "Underwater Science and Technology Platform"
+    },
+    "answer": "a"
+  },
+  {
+    "question": "What does \"ICT\" stand for in USTP's programs?",
+    "choices": {
+      "a": "International Computing Techniques",
+      "b": "Information and Communications Technology",
+      "c": "Integrated Circuit Technology",
+      "d": "Intelligent Communication Tools"
+    },
+    "answer": "b"
+  }
+]

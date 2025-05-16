@@ -1,0 +1,52 @@
+[
+  {
+    "question": "Which planet rains diamonds?",
+    "choices": {
+      "a": "Jupiter",
+      "b": "Saturn",
+      "c": "Neptune",
+      "d": "Uranus"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "What is the tallest mountain in the world?",
+    "choices": {
+      "a": "K2",
+      "b": "Mount Kilimanjaro",
+      "c": "Mount Everest",
+      "d": "Denali"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "What is the largest organ in the human body?",
+    "choices": {
+      "a": "Liver",
+      "b": "Brain",
+      "c": "Skin",
+      "d": "Heart"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "Which vitamin do we get from sunlight?",
+    "choices": {
+      "a": "Vitamin A",
+      "b": "Vitamin B12",
+      "c": "Vitamin D",
+      "d": "Vitamin K"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "Which desert is the largest in the world?",
+    "choices": {
+      "a": "Gobi",
+      "b": "Kalahari",
+      "c": "Sahara",
+      "d": "Antarctic Desert"
+    },
+    "answer": "d"
+  }
+]

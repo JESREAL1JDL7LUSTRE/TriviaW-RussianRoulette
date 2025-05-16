@@ -1,0 +1,22 @@
+[
+  {
+    "question": "Which organ in the human body produces insulin?",
+    "choices": {
+      "a": "Liver",
+      "b": "Kidney",
+      "c": "Pancreas",
+      "d": "Heart"
+    },
+    "answer": "c"
+  },
+  {
+    "question": "Who discovered penicillin?",
+    "choices": {
+      "a": "Albert Einstein",
+      "b": "Louis Pasteur",
+      "c": "Alexander Fleming",
+      "d": "Isaac Newton"
+    },
+    "answer": "c"
+  }
+]
